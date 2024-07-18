@@ -1,4 +1,4 @@
-const {Router} = require('express');
+import {Router} from 'express';
 const router = Router();
 // ************************ Controllers & Middlewares ************************
 const {signUp, logIn, logOut} = require('../controllers/authController');
@@ -11,4 +11,4 @@ router.post('/login', logIn);
 // Log Out
 router.get('/logout', logOut);
 
-module.exports = router;
+export default router;
