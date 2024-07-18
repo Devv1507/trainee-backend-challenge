@@ -1,6 +1,7 @@
 import { QueryInterface, DataTypes } from 'sequelize';
 
-export default {
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
   async up(queryInterface: QueryInterface, Sequelize: typeof DataTypes) {
     await queryInterface.createTable('Tasks', {
       id: {
@@ -42,7 +43,7 @@ export default {
       }
     });
   },
-  async down(queryInterface: QueryInterface) {
+  async down(queryInterface: QueryInterface, Sequelize:any) {
     await queryInterface.dropTable('Tasks');
   }
 };

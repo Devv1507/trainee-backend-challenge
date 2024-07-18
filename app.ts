@@ -7,7 +7,7 @@ const app: Express = express();
 app.use(express.json());
 
 // ************************ Routes ************************
-import v1AuthRouter from './routes/authRoutes.js';
+import v1AuthRouter from './routes/authRoutes';
 // import v1UserRouter from './routes/usersRoutes';
 
 // Using the routers created
