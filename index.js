@@ -1,11 +1,16 @@
-import express from 'express';
+const app = require('./app.js');
 
-const app = express();
+const PORT = process.env.PORT || 3000;
 
-app.get('/', (req, res) => {
-    res.send('Hello World');
+function main() {
+  try {
+    // Initializing the server, configurated to listen on defined port (local or production)
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
-app.listen(3000, () => {
-    console.log('Server is running on http://localhost:3000');
-    });
+main();
