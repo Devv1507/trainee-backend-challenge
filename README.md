@@ -1,0 +1,1 @@
+Basic express application to deploy API CRUD functionalities based on "InstaSnack" challenge. Technologies expected: PostgreSQL (with Sequelice), NodeJS, Express Framework with TypeScrypt language and guidelines. Documentation: Swagger, JSDoc. 
