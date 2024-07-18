@@ -1,6 +1,7 @@
 'use strict';
 import { UUID } from 'crypto';
-import { Sequelize, Model, DataTypes} from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import connection from '../config/sequelize';
 
 interface UserAttributes {
   id: UUID;
@@ -9,8 +10,7 @@ interface UserAttributes {
   password: string;
 }
 
-module.exports = (sequelize:any, DataTypes:any) => {
-  class User extends Model<UserAttributes> {
+class User extends Model<UserAttributes> implements UserAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -50,8 +50,8 @@ module.exports = (sequelize:any, DataTypes:any) => {
       type: DataTypes.STRING,
     },
   }, {
-    sequelize,
+    sequelize: connection,
     modelName: 'User',
   });
-  return User;
-};
+
+  export default User;

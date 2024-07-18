@@ -1,5 +1,6 @@
 'use strict';
-import { Sequelize, Model, DataTypes} from 'sequelize';
+import { Model, DataTypes } from 'sequelize';
+import connection from '../config/sequelize';
 
 interface TaskAttributes {
   id:  number;
@@ -9,8 +10,7 @@ interface TaskAttributes {
   limitDate: Date;
 }
 
-module.exports = (sequelize:any, DataTypes:any) => {
-  class Task extends Model<TaskAttributes> {
+class Task extends Model<TaskAttributes> implements TaskAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -54,8 +54,8 @@ module.exports = (sequelize:any, DataTypes:any) => {
       type: DataTypes.DATE,
     },
   }, {
-    sequelize,
+    sequelize: connection,
     modelName: 'Task',
   });
-  return Task;
-};
+
+  export default Task;

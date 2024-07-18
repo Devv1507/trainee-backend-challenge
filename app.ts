@@ -1,6 +1,8 @@
 import express, { Express} from 'express';
+import dotenv from 'dotenv'; 
 // ************************ Settings ************************
 const app: Express = express();
+dotenv.config();
 
 // ************************ Middlewares ************************
 // Middleware to use body parser functionality to read and parse JSON in req.body

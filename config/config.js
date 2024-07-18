@@ -1,31 +1,16 @@
-require('dotenv').config();
+require('ts-node/register');
+const configs = require('../configs.ts');
 
 module.exports = {
-  "development": {
-    "username": process.env.DB_USER,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_DATABASE,
-    "host": process.env.DB_HOST,
-    "dialect": "postgres",
-    "dialectOptions": {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false,
-      },
+  "username": configs.DB_USER,
+  "password": configs.DB_PASSWORD,
+  "database": configs.DB_DATABASE,
+  "host": configs.DB_HOST,
+  "dialect": "postgres",
+  "dialectOptions": {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
     },
   },
-  "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": process.env.DB_USER,
-    "password": process.env.DB_PASSWORD,
-    "database": process.env.DB_DATABASE,
-    "host": process.env.DB_HOST,
-    "dialect": "postgres"
-  }
-}
+};
