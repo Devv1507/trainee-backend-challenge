@@ -1,11 +1,12 @@
 import app from './app';
-import connection from './config/connection';
+import connection from './database/connection';
 const PORT = process.env.PORT || 3000;
 
 async function main() {
   try {
-    // Initializing the server, configurated to listen on defined port (local or production)
+    // Initializing the Sequelize-Postgres connection
     await connection.sync({ force: false });
+    // Configurated to listen on defined port (local or production)
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });

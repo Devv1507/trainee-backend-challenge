@@ -1,6 +1,6 @@
 // ************************ Modules & Utils ************************
 import { Handler } from 'express';
-import User from '../models/user';
+import User from '../database/models/user';
 //const { issueJWT } = require('../libs/createToken');
 
 // ************************ Controller functions ************************

@@ -2,7 +2,7 @@
 import { Handler } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import User from '../models/user';
+import User from '../database/models/user';
 //const { issueJWT } = require('../libs/createToken');
 
 // ************************ Controller functions ************************
