@@ -2,7 +2,7 @@
 import { Handler } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import models from '../models';
+import User from '../models/user';
 //const { issueJWT } = require('../libs/createToken');
 
 // ************************ Controller functions ************************
@@ -12,7 +12,7 @@ export const signUp: Handler = async (req, res) => {
     const { name, email, password, rePassword } = req.body;
     const errors = [];
     // Check user from database with same email if any
-    const existingEmail = await models.User.findOne({
+    const existingEmail = await User.findOne({
       where: { email },
     });
     if (existingEmail) {
@@ -37,15 +37,13 @@ export const signUp: Handler = async (req, res) => {
     if (errors.length > 0) {
       return res.status(400).json(errors);
     }
-    // Hash password
-    const passwordHashed = await models.User.encryptPassword(password);
     // Create new user
     const newUser = {
       name,
       email,
-      passwordHashed
+      password
     };
-    const user = await models.User.create(newUser);
+    const user = await User.create(newUser);
     // Sign the token and give it to the employee
     //******************** */
     res.status(201).json({
@@ -65,7 +63,7 @@ export const logIn: Handler = async (req, res) => {
   try {
     const { email, password } = req.body;
     // Validate the email
-    const user = await models.User.findOne({ where: { email } });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(400).json(['Email no encontrado. Por favor, intente de nuevo']);
     }

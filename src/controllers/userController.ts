@@ -1,6 +1,6 @@
 // ************************ Modules & Utils ************************
 import { Handler } from 'express';
-import models from '../models';
+import User from '../models/user';
 //const { issueJWT } = require('../libs/createToken');
 
 // ************************ Controller functions ************************
@@ -8,7 +8,7 @@ import models from '../models';
 export const getById: Handler = async (req, res) => {
   try {
     const { email } = req.params; // req.userData ######################################
-    const account = await models.Account.findOne({
+    const account = await User.findOne({
       where: { email },
       attributes: {
         exclude: ['password'],
@@ -27,7 +27,7 @@ export const getById: Handler = async (req, res) => {
 // Get all accounts
 export const getAll: Handler = async (req, res) => {
   try {
-    const accounts = await models.Account.findAll();
+    const accounts = await User.findAll();
     if (accounts) {
       res.json({ success: true, message: accounts });
     } else {
@@ -41,8 +41,8 @@ export const getAll: Handler = async (req, res) => {
 export const deleteAccount: Handler = async (req, res) => {
   try {
     const { id } = req.params;
-    const target = await models.Account.findByPk(id);
-    await target.destroy();
+    const target = await User.findByPk(id);
+    //await target.destroy();
     //********************** */
     res.status(200).json('La cuenta específicada ha sido eliminada');
   } catch (error: any) {
@@ -53,10 +53,10 @@ export const deleteAccount: Handler = async (req, res) => {
 export const updateAccount: Handler = async (req, res) => {
   try {
     const { id } = req.params;
-    const target = await models.Account.findByPk(id);
+    const target = await User.findByPk(id);
     const { body } = req;
-    const updated = await target.update(body);
-    res.status(200).json(updated);
+    //const updated = await target.update(body);
+    //res.status(200).json(updated);
   } catch (error: any) {
     res.status(500).send({ success: false, message: error.message });
   }
