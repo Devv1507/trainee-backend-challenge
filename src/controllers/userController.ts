@@ -26,9 +26,9 @@ export const getById: Handler = async (req, res) => {
 // Get all accounts
 export const getAll: Handler = async (req, res) => {
   try {
-    const accounts = await User.findAll();
-    if (accounts) {
-      res.json({ success: true, message: accounts });
+    const users = await User.findAll();
+    if (users) {
+      res.json({ success: true, message: users });
     } else {
       res.status(400).json('User not found');
     }

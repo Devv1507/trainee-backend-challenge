@@ -16,32 +16,3 @@ export const checkIfAuthorized = (req: Request, res: Response, next: NextFunctio
     next();
   })(req, res, next);
 };
-
-/**
- * @DESC Verify JWT from authorization header Middleware
- * Checks if the provided JWT token is valid
- * (token is different for every session login by users and expires after 1800 minutes)
- */
-export const validate: Handler = async (req, res, next) => {
-    try {
-      // Check if authorization header exists
-      if (!req.headers.authorization) {
-        return res.status(401).json({ message: 'Authorization header is missing' });
-      }
-      const token = req.headers.authorization.split(' ')[1];
-      const decodedToken = jwt.verify(token, process.env.TOKEN_SECRET as string);
-      res.locals.userData = decodedToken;
-      const {email} = res.locals.userData;
-      const user = await User.findOne({where: {email}});
-      if (!user) {
-        return res.status(404).json('User not found in the database')
-      }
-      next();
-    } catch (error) {
-      console.log(error);
-      return res.status(401).json({
-        message: 'Invalid or expired token provided',
-        error: error,
-      });
-    }
-  };
