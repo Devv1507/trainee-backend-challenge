@@ -1,14 +1,14 @@
 import { Router } from 'express';
 const router = Router();
 
-import { getTasks, addTask, updateTask, deleteTask } from '../../controllers/taskController';
+import { getUserTasks, addTask, updateTask, deleteTask } from '../../controllers/taskController';
 import { checkIfAuthorized } from '../../middlewares/checkAuth';
 
 // ************************ Private Routes ************************
 // Get all user tasks
-router.get('/tasks', checkIfAuthorized, getTasks);
+router.get('/tasks', checkIfAuthorized, getUserTasks);
 // Add a task
-router.post('/tasks', checkIfAuthorized, addTask);
+router.post('/tasks/add', checkIfAuthorized, addTask);
 // Update a task
 router.put('/tasks/:id', checkIfAuthorized, updateTask);
 // Delete a task

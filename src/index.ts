@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 3000;
 async function main() {
   try {
     await sequelize.authenticate();
-    console.log('Connection has been established successfully');
+    console.log('Connection has been established successfully'); //###################
     // Initializing the Sequelize-Postgres connection
     await sequelize.sync({ force: false });
     // Configurated to listen on defined port (local or production)
