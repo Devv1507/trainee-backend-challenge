@@ -4,6 +4,9 @@ dotenv.config();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import passport from './middlewares/passport-jwt';
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUI from 'swagger-ui-express';
+import { options } from './swaggerOptions';
 
 // ************************ Settings ************************
 const app: Express = express();
@@ -15,6 +18,8 @@ app.use(express.json());
 app.use(passport.initialize());
 // To work with cookies
 app.use(cookieParser());
+// To allow JSDoc validation
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSDoc(options)));
 
 // ************************ Routes ************************
 import v1AuthRouter from './routes/v1/authRoutes';
