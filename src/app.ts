@@ -1,12 +1,12 @@
 import express, { Express} from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import passport from './middlewares/passport-jwt';
 
 // ************************ Settings ************************
 const app: Express = express();
-dotenv.config();
 
 // ************************ Middlewares ************************
 // To use body parser functionality to read and parse JSON in req.body

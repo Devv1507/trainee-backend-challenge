@@ -9,7 +9,7 @@ import { checkIfAuthorized } from '../../middlewares/checkAuth';
 // Get all users  - admin
 router.get('/all', checkIfAuthorized,  getAll);
 // Get my user - any
-router.get('/', checkIfAuthorized, getById);
+router.get('/:id', checkIfAuthorized, getById);
 // Delete user - admin
 router.delete('/:id', checkIfAuthorized,  deleteUser);
 // Update user information - any

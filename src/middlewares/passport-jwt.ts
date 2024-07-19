@@ -1,6 +1,7 @@
 import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import User from '../database/models/user';
+import { Key } from 'readline';
 
 const options = {
   jwtFromRequest: ExtractJwt.fromExtractors([

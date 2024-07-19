@@ -5,7 +5,7 @@ const dbUser = process.env.DB_USER as string;
 const dbHost = process.env.DB_HOST;
 const dbPassword = process.env.DB_PASSWORD;
 
-const connection = new Sequelize({
+const sequelize = new Sequelize({
   database: dbName,
   username: dbUser,
   password: dbPassword,
@@ -18,7 +18,7 @@ const connection = new Sequelize({
       rejectUnauthorized: false,
     },
   },
-  models: [__dirname + '/../models'],
+  models: [__dirname + '/models'],
 });
 
-export default connection;
+export default sequelize;

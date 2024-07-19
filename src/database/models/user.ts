@@ -43,6 +43,11 @@ class User extends Model{
   })
   password!: string;
 
+  @Column({
+    type: DataType.STRING,
+  })
+  refreshToken!: string;
+
   @HasMany(() => Task)
   tasks!: Task[];
 
