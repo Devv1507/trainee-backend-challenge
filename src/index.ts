@@ -2,6 +2,7 @@ import app from './app';
 import connection from './database/connection';
 const PORT = process.env.PORT || 3000;
 
+// Asyncronic function to test for errors during connection
 async function main() {
   try {
     // Initializing the Sequelize-Postgres connection
