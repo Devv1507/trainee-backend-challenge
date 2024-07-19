@@ -1,14 +1,17 @@
 import { Router } from 'express';
-import { getTasks, addTask, updateTask, deleteTask } from '../../controllers/taskController';
-
 const router = Router();
 
-// ************************ Public Routes ************************
-// Get all tasks
-router.get('/tasks', getTasks);
+import { getTasks, addTask, updateTask, deleteTask } from '../../controllers/taskController';
+import { checkIfAuthorized } from '../../middlewares/checkAuth';
+
+// ************************ Private Routes ************************
+// Get all user tasks
+router.get('/tasks', checkIfAuthorized, getTasks);
 // Add a task
-router.post('/tasks', addTask);
+router.post('/tasks', checkIfAuthorized, addTask);
 // Update a task
-router.put('/tasks/:id', updateTask);
+router.put('/tasks/:id', checkIfAuthorized, updateTask);
 // Delete a task
-router.delete('/tasks/:id', deleteTask);
+router.delete('/tasks/:id', checkIfAuthorized, deleteTask);
+
+export default router;

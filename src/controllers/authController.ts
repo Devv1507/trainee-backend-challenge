@@ -1,9 +1,8 @@
 // ************************ Modules & Utils ************************
 import { Handler } from 'express';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
 import User from '../database/models/user';
-//const { issueJWT } = require('../libs/createToken');
+import { assignJWT } from '../utils/createToken';
 
 // ************************ Controller functions ************************
 // ************************ Sign Up
@@ -44,12 +43,14 @@ export const signUp: Handler = async (req, res) => {
       password
     };
     const user = await User.create(newUser);
-    // Sign the token and give it to the employee
+    // Retrieve access token and give it to the user
+    const accessToken = await assignJWT(user, process.env.ACCESS_TOKEN_SECRET as string, process.env.ACCESS_TOKEN_EXPIRATION as string);
     //******************** */
     res.status(201).json({
       id: user.id,
       name: user.name,
       email: user.email,
+      token: accessToken,
       message: 'Cuenta creada satisfactoriamente',
     });
   } catch (error) {
@@ -67,20 +68,29 @@ export const logIn: Handler = async (req, res) => {
     if (!user) {
       return res.status(400).json(['Email no encontrado. Por favor, intente de nuevo']);
     }
-    // Checking if the passwordS matchs
+    // Checking if the passwords matchs
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(400).json({ message: 'Constraña inválida' });
+      return res.status(400).json({ message: 'Constraseña inválida' });
     }
-    // Create the token
-    ///***   */
-    // Save the token in a cookie
-
-    // Response
+    // If the password matchs, sign the token and give it to the user
+    const accessToken = await assignJWT(user, process.env.ACCESS_TOKEN_SECRET as string, process.env.ACCESS_TOKEN_EXPIRATION as string);
+    const refreshToken = await assignJWT(user, process.env.REFRESH_TOKEN_SECRET as string, process.env.REFRESH_TOKEN_EXPIRATION as string);
+    // Update the user's refresh token
+    await user.update({refreshToken});
+    // Save the refresh token in a browser cookie
+    res.cookie('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'none',
+      maxAge: 1 * 20 * 60 * 1000, // (hours * minutes * seconds * ms)
+    }); 
+    // Success response
     res.status(200).json({
       id: user.id,
       name: user.name,
       email: user.email,
+      accessToken,
       message: 'Autenticación exitosa',
     });
   } catch (error) {

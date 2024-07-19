@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 import { Handler } from 'express';
 
 // Define custom middleware function to handle unauthorized requests
-export const redirectToLoginIfUnauthorized = (req: Request, res: Response, next: NextFunction) => {
+export const checkIfAuthorized = (req: Request, res: Response, next: NextFunction) => {
   passportJwt.authenticate('jwt', { session: false }, (err: any, user: any, info: any) => {
     if (err || !user) {
       // Redirect to login route if unauthorized

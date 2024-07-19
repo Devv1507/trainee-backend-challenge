@@ -7,9 +7,8 @@ import User from '../database/models/user';
 // Get account by ID
 export const getById: Handler = async (req, res) => {
   try {
-    const { email } = req.params; // req.userData ######################################
-    const account = await User.findOne({
-      where: { email },
+    const { id } = req.params; // req.userData ######################################
+    const account = await User.findOne({ where: { id },
       attributes: {
         exclude: ['password'],
       }
@@ -38,7 +37,7 @@ export const getAll: Handler = async (req, res) => {
   }
 };
 // Delete an account
-export const deleteAccount: Handler = async (req, res) => {
+export const deleteUser: Handler = async (req, res) => {
   try {
     const { id } = req.params;
     const target = await User.findByPk(id);
@@ -50,7 +49,7 @@ export const deleteAccount: Handler = async (req, res) => {
   }
 };
 // Update an account
-export const updateAccount: Handler = async (req, res) => {
+export const updateUser: Handler = async (req, res) => {
   try {
     const { id } = req.params;
     const target = await User.findByPk(id);
