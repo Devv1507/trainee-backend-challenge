@@ -1,11 +1,13 @@
-const models = require('../models');
 // ************************ Modules & Utils ************************
+import { Handler } from 'express';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import models from '../models';
 //const { issueJWT } = require('../libs/createToken');
-const jwt = require('jsonwebtoken');
 
 // ************************ Controller functions ************************
 // ************************ Sign Up
-const signUp = async (req, res) => {
+export const signUp: Handler = async (req, res) => {
   try {
     const { name, email, password, rePassword } = req.body;
     const errors = [];
@@ -59,7 +61,7 @@ const signUp = async (req, res) => {
 };
 
 // ************************ Log In 
-const logIn = async (req, res) => {
+export const logIn: Handler = async (req, res) => {
   try {
     const { email, password } = req.body;
     // Validate the email
@@ -89,12 +91,6 @@ const logIn = async (req, res) => {
   }
 };
 // ************************ Log Out
-const logOut = async (req, res) => {
+export const logOut = async (req: Request, res: Response) => {
   console.log('Log Out');
-};
-
-module.exports = {
-  signUp,
-  logIn,
-  logOut,
 };
