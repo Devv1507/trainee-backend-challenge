@@ -95,6 +95,9 @@ export const logIn: Handler = async (req, res) => {
   }
 };
 // ************************ Log Out
-export const logOut = async (req: Request, res: Response) => {
-  console.log('Log Out');
+export const logOut: Handler = async (req, res) => {
+  res.cookie('refreshToken', '', {
+    maxAge: 0,
+  });
+  res.status(200).json({ message: 'Cierre de sesión exitoso' });
 };
