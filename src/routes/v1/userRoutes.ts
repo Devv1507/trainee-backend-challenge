@@ -5,7 +5,6 @@ import { getById, getAll, updateUser, deleteUser } from '../../controllers/userC
 import { checkIfAuthorized } from '../../middlewares/checkAuth';
 
 // ************************ Private Routes ************************
-// Needed previous authentication to get all user account information
 // Get all users  - admin
 router.get('/all', checkIfAuthorized,  getAll);
 // Get my user - any

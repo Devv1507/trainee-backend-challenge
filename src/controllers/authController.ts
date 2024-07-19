@@ -36,26 +36,22 @@ export const signUp: Handler = async (req, res) => {
     if (errors.length > 0) {
       return res.status(400).json(errors);
     }
-    // Create new user
+    // If no errors found, create new user
     const newUser = {
       name,
       email,
       password
     };
     const user = await User.create(newUser);
-    // Retrieve access token and give it to the user
-    const accessToken = await assignJWT(user, process.env.ACCESS_TOKEN_SECRET as string, process.env.ACCESS_TOKEN_EXPIRATION as string);
-    //******************** */
+    // Send success response
     res.status(201).json({
       id: user.id,
       name: user.name,
       email: user.email,
-      token: accessToken,
       message: 'Cuenta creada satisfactoriamente',
     });
   } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).json(['Error creating user']); // More user-friendly error message
+    res.status(500).json(['Ha ocurrido un error al intentar crear el usuario']);
   }
 };
 
@@ -95,7 +91,7 @@ export const logIn: Handler = async (req, res) => {
     });
   } catch (error) {
     console.error(error); // Log the error for debugging
-    res.status(500).json({ message: 'Something went wrong' });
+    res.status(500).json({ message: 'Algo fue mal en el inicio de sesión' });
   }
 };
 // ************************ Log Out

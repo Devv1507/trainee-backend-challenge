@@ -4,20 +4,19 @@ import User from '../database/models/user';
 //const { issueJWT } = require('../libs/createToken');
 
 // ************************ Controller functions ************************
-// Get account by ID
+// Get user by ID
 export const getById: Handler = async (req, res) => {
   try {
     const { id } = req.params; // req.userData ######################################
-    const account = await User.findOne({ where: { id },
+    const user = await User.findOne({ where: { id },
       attributes: {
         exclude: ['password'],
       }
     });
-    if (account) {
-      res.json({ success: true, message: account, admin: res.locals.adminRole });
-      //res.render('accounts/account-home', {account});
+    if (user) {
+      res.json({ success: true, message: user });
     } else {
-      res.status(400).json('User not found');
+      res.status(400).json('Usuario no encontrado');
     }
   } catch (error: any) {
     res.status(500).send({ success: false, message: error.message });
@@ -27,11 +26,7 @@ export const getById: Handler = async (req, res) => {
 export const getAll: Handler = async (req, res) => {
   try {
     const users = await User.findAll();
-    if (users) {
-      res.json({ success: true, message: users });
-    } else {
-      res.status(400).json('User not found');
-    }
+    res.json({ success: true, message: users });
   } catch (error: any) {
     res.status(500).send({ success: false, message: error.message });
   }
@@ -41,9 +36,12 @@ export const deleteUser: Handler = async (req, res) => {
   try {
     const { id } = req.params;
     const target = await User.findByPk(id);
-    //await target.destroy();
-    //********************** */
-    res.status(200).json('La cuenta específicada ha sido eliminada');
+    if (target === null) {
+      return res.status(404).json({ success: false, message: 'La cuenta no ha sido encontrada' });
+    } else {
+      await target.destroy();
+      res.status(200).json('La cuenta específicada ha sido eliminada');
+    }
   } catch (error: any) {
     res.status(500).send({ success: false, message: error.message });
   }
@@ -52,10 +50,14 @@ export const deleteUser: Handler = async (req, res) => {
 export const updateUser: Handler = async (req, res) => {
   try {
     const { id } = req.params;
-    const target = await User.findByPk(id);
     const { body } = req;
-    //const updated = await target.update(body);
-    //res.status(200).json(updated);
+    const target = await User.findByPk(id);
+    if (target === null) {
+      return res.status(404).json({ success: false, message: 'La cuenta no ha sido encontrada' });
+    } else {
+      const updated = await target.update(body);
+      res.status(200).json(updated);
+    }
   } catch (error: any) {
     res.status(500).send({ success: false, message: error.message });
   }
