@@ -3,6 +3,7 @@ import { Handler } from 'express';
 import bcrypt from 'bcryptjs';
 import User from '../database/models/user';
 import { assignJWT } from '../utils/createToken';
+import jwt from 'jsonwebtoken';
 
 // ************************ Controller functions ************************
 // ************************ Sign Up
@@ -84,23 +85,23 @@ export const logIn: Handler = async (req, res) => {
     if (!passwordMatch) {
       return res.status(400).json({ message: 'Constraseña incorrecta' });
     }
-    // If the password matchs, sign the token and give it to the user
-    const accessToken = await assignJWT(user, process.env.ACCESS_TOKEN_SECRET as string, process.env.ACCESS_TOKEN_EXPIRATION as string);
-    const refreshToken = await assignJWT(user, process.env.REFRESH_TOKEN_SECRET as string, process.env.REFRESH_TOKEN_EXPIRATION as string);
-    // Update the user's refresh token
-    await user.update({refreshToken});
+    // If the password matchs, generate the tokens
+    const accessToken = await assignJWT(
+      user, 
+      process.env.ACCESS_TOKEN_SECRET as string, 
+      process.env.ACCESS_TOKEN_EXPIRATION as string);
+    const refreshToken = await assignJWT(user, 
+      process.env.REFRESH_TOKEN_SECRET as string, 
+      process.env.REFRESH_TOKEN_EXPIRATION as string);
     // Save the refresh token in a browser cookie
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: true,
       sameSite: 'none',
-      maxAge: 1 * 20 * 60 * 1000, // (hours * minutes * seconds * ms)
+      maxAge: 172000, // seconds
     }); 
     // Success response
     res.status(200).json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
       accessToken,
       message: 'Autenticación exitosa',
     });
@@ -120,4 +121,22 @@ export const logOut: Handler = async (req, res) => {
     maxAge: 0,
   });
   res.status(200).json({ message: 'Cierre de sesión exitoso' });
+};
+// ************************ Refresh Token logic
+export const handleRefreshToken: Handler = (req, res) => {
+  const { refreshToken } = req.cookies;
+  if (!refreshToken) return res.status(401).json({ message: 'No se encontró token de refresco' });
+  
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, async (err: any, decoded: any) => {
+    if (err) return res.status(403).json('No se encontro token de refresco');
+    const userFound = await User.findByPk(decoded.id);
+    if (!userFound) return res.status(403).json('Token inválido');
+    
+    const accessToken = await assignJWT(
+      userFound,
+      process.env.ACCESS_TOKEN_SECRET as string,
+      process.env.ACCESS_TOKEN_EXPIRATION as string
+    );
+    res.status(201).json({accessToken});
+  });
 };
