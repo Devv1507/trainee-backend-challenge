@@ -13,6 +13,8 @@ async function main() {
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
     });
+    console.log(`Version 1 Docs are available on http://localhost:${PORT}/api/docs`);
+    
   } catch (error: any) {
     console.log(error);
   }

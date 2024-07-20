@@ -11,6 +11,48 @@ import {
 import bcrypt from 'bcryptjs';
 import Task from './task';
 
+/**
+ * @openapi
+ * components:
+ *  schemas:
+ *   User:
+ *    type: object
+ *    properties:
+ *     id:
+ *      type: UUID
+ *      description: The auto-generated id of the user
+ *     name:
+ *      type: string
+ *      description: The name of the user
+ *     email:
+ *      type: string
+ *      description: The email of the user
+ *     password:
+ *      type: string
+ *      description: The password of the user
+ *     rePassword:
+ *      type: string
+ *      description: Password confirmation
+ *     createdAt:
+ *      type: datatime
+ *      description: The date and time when the user was created
+ *     updatedAt:
+ *      type: datatime
+ *      description: The date and time when the user was last updated
+ *    required:
+ *     - name
+ *     - email
+ *     - password
+ *     - rePassword
+ *    example:
+ *     id: b708a04d-71f9-41bb-8d7f-ba2d8d986abb
+ *     name: Marcos
+ *     email: marcos@gmail.com
+ *     password: adcadc
+ *     rePassword: adcadc
+ *     createdAt: 2024-07-19 05:01:04.732 -0500
+ *     updatedAt: 2024-07-19 05:01:25.030 -0500
+ */
 @Table({
   tableName: 'users',
   modelName: 'User',

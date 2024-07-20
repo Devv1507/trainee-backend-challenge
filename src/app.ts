@@ -18,8 +18,14 @@ app.use(express.json());
 app.use(passport.initialize());
 // To work with cookies
 app.use(cookieParser());
+// To allow cross-origin requests (mainly for Swagger)
+app.use(cors(
+    {
+        credentials: true,
+    }
+));
 // To allow JSDoc validation
-app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSDoc(options)));
+app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSDoc(options)));
 
 // ************************ Routes ************************
 import v1AuthRouter from './routes/v1/authRoutes';
