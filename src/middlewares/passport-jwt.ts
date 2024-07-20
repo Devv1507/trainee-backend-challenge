@@ -8,15 +8,16 @@ const options = {
 };
 
 passport.use(
-  new Strategy(options, async (jwt_payload: { id: any }, done: (err: unknown, decoded: boolean | User ) => any) => {
+  new Strategy(options, async (jwt_payload: { sub: string }, done: (err: any, decoded: boolean | User ) => any) => {
     try {
-      const user = await User.findByPk(jwt_payload.id, {
+      console.log(jwt_payload);
+      const user = await User.findByPk(jwt_payload.sub, {
         attributes: {
-          exclude: ['password'],
+          exclude: ['name','password'],
         }
       });
-      if (user) return done(null, user);
-      return done(null, false);
+      if (!user) return done(null, false);
+      return done(null, user);
     } catch (error) {
       return done(error, false);
     }
