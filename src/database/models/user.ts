@@ -12,7 +12,7 @@ import bcrypt from 'bcryptjs';
 import Task from './task';
 
 /**
- * @openapi
+ * @swagger
  * components:
  *  schemas:
  *   User:

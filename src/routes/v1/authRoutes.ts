@@ -8,12 +8,17 @@ import {registerSchema, logInSchema} from '../../validators/schemas/authSchemas'
 // ************************ Public Routes ************************
 // Sign Up
 /**
- * @openapi
+ * @swagger
  * /api/sign-up:
  *  post:
- *   tags:
- *    - User
+ *   tags: [User]
  *   summary: Register a new user
+ *   requestBody:
+ *    required: true
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/User'
  *   responses:
  *    201:
  *     description: User created successfully
@@ -24,8 +29,18 @@ import {registerSchema, logInSchema} from '../../validators/schemas/authSchemas'
  */
 router.post('/sign-up', validateRequest(registerSchema), signUp);
 // Log In
+/**
+ * @swagger
+ * /api/login:
+ *  post:
+ */
 router.post('/login', validateRequest(logInSchema), logIn);
 // Log Out
+/**
+ * @swagger
+ * /api/logout:
+ *  get:
+ */
 router.get('/logout', logOut);
 
 export default router;

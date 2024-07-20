@@ -6,6 +6,21 @@ import { checkIfAuthorized } from '../../middlewares/checkAuth';
 
 // ************************ Private Routes ************************
 // Get all users  - admin
+/**
+ * @swagger
+ * /api/home/all:
+ *  get:
+ *   tags:
+ *    - User
+ *   summary: Get all users
+ *   responses:
+ *    200:
+ *     description: Object with all users
+ *     content:
+ *      application/json:
+ *     schema:
+ *      $ref: '#/components/schemas/User'
+ */
 router.get('/all', checkIfAuthorized,  getAll);
 // Get my user - any
 router.get('/:id', checkIfAuthorized, getById);

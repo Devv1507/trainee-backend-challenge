@@ -6,6 +6,15 @@ import { assignJWT } from '../utils/createToken';
 
 // ************************ Controller functions ************************
 // ************************ Sign Up
+/**
+ * Retrieve request input data to create a new user
+ * @async
+ * @param name - User's name
+ * @param email - User's email
+ * @param password - User's password
+ * @param rePassword - User's password confirmation
+ * @response {object} - User's data
+ */
 export const signUp: Handler = async (req, res) => {
   try {
     const { name, email, password, rePassword } = req.body;
@@ -56,6 +65,12 @@ export const signUp: Handler = async (req, res) => {
 };
 
 // ************************ Log In 
+/**
+ * Authenticate user password based on hashed password and input password, then push a JWT token to cookie
+ * @async
+ * @param email - User's email
+ * @param password - User's password
+ */
 export const logIn: Handler = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -95,6 +110,11 @@ export const logIn: Handler = async (req, res) => {
   }
 };
 // ************************ Log Out
+/**
+ * Clear the refresh token cookie to log out the user
+ * @async
+ * @param res - Request object
+ */
 export const logOut: Handler = async (req, res) => {
   res.cookie('refreshToken', '', {
     maxAge: 0,
