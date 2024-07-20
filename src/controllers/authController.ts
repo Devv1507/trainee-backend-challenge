@@ -82,7 +82,7 @@ export const logIn: Handler = async (req, res) => {
     // Checking if the passwords matchs
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(400).json({ message: 'Constraseña inválida' });
+      return res.status(400).json({ message: 'Constraseña incorrecta' });
     }
     // If the password matchs, sign the token and give it to the user
     const accessToken = await assignJWT(user, process.env.ACCESS_TOKEN_SECRET as string, process.env.ACCESS_TOKEN_EXPIRATION as string);

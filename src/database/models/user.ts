@@ -29,10 +29,7 @@ import Task from './task';
  *      description: The email of the user
  *     password:
  *      type: string
- *      description: The password of the user
- *     rePassword:
- *      type: string
- *      description: Password confirmation
+ *      description: Hashed password of the user
  *     createdAt:
  *      type: datatime
  *      description: The date and time when the user was created
@@ -43,13 +40,11 @@ import Task from './task';
  *     - name
  *     - email
  *     - password
- *     - rePassword
  *    example:
  *     id: b708a04d-71f9-41bb-8d7f-ba2d8d986abb
  *     name: Marcos
  *     email: marcos@gmail.com
- *     password: adcadc
- *     rePassword: adcadc
+ *     password: $10$.j/EGaks0RtOSDrZBtoTd.IjLx2dtG9mYPUhxmfyKhJePllm4gRNS
  *     createdAt: 2024-07-19 05:01:04.732 -0500
  *     updatedAt: 2024-07-19 05:01:25.030 -0500
  */
