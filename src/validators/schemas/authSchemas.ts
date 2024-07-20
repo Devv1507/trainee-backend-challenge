@@ -3,33 +3,34 @@ import {z} from 'zod';
 /**
  * Schema for the registration form
  * @swagger
+ * 
  * components:
  *  schemas:
  *   RegisterRequest:
  *    type: object
- *     properties:
- *      name:
- *       type: string
- *       description: The name of the user
- *      email:
- *       type: string
- *       description: The email of the user
- *      password:
- *       type: string
- *       description: The password of the user
- *      rePassword:
- *       type: string
- *       description: Password confirmation
- *     required:
- *      - name
- *      - email
- *      - password
- *      - rePassword
- *     example:
- *      name: Marcos
- *      email: marcos@gmail.com
- *      password: adcadc
- *      rePassword: adcadc
+ *    properties:
+ *     name:
+ *      type: string
+ *      description: The name of the user
+ *     email:
+ *      type: string
+ *      description: The email of the user
+ *     password:
+ *      type: string
+ *      description: The password of the user
+ *     rePassword:
+ *      type: string
+ *      description: Password confirmation
+ *    required:
+ *     - name
+ *     - email
+ *     - password
+ *     - rePassword
+ *    example:
+ *     name: Marcos
+ *     email: marcos@gmail.com
+ *     password: adcadc
+ *     rePassword: adcadc
  */
 
 export const registerSchema = z.object({
@@ -54,19 +55,19 @@ export const registerSchema = z.object({
  *  schemas:
  *   LogInRequest:
  *    type: object
- *     properties:
- *      email:
- *       type: string
- *       description: The email of the user
- *      password:
- *       type: string
- *       description: The password of the user
- *     required:
- *      - email
- *      - password
- *     example:
- *      email: marcos@gmail.com
- *      password: adcadc
+ *    properties:
+ *     email:
+ *      type: string
+ *      description: The email of the user
+ *     password:
+ *      type: string
+ *      description: The password of the user
+ *    required:
+ *     - email
+ *     - password
+ *    example:
+ *     email: marcos@gmail.com
+ *     password: adcadc
  */
 export const logInSchema = z.object({
     email: z.string({

@@ -4,8 +4,40 @@ const router = Router();
 import {signUp, logIn, logOut} from '../../controllers/authController';
 import {validateRequest} from '../../middlewares/schemasHandler';
 import {registerSchema, logInSchema} from '../../validators/schemas/authSchemas';
+import {checkIfAuthorized} from '../../middlewares/checkAuth';
 
 // ************************ Public Routes ************************
+
+/**
+ * @swagger
+ * components:
+ * 
+ *  parameters:
+ *   userId:
+ *    in: path
+ *    name: id
+ *    description: Id of the user
+ *    required: true
+ *    schema:
+ *     type: string
+ * 
+ *  securitySchemes:
+ *   cookieAuth:
+ *    type: apiKey
+ *    in: cookie
+ *    name: refreshToken
+ *    description: The refresh token to authenticate
+ * 
+ *  schemas:
+ *   UnauthorizedRequest:
+ *    description: API key is missing or invalid
+ *    headers:
+ *     WWW_Authenticate:
+ *      schema:
+ *       type: string
+ *        
+ */
+
 // Sign Up
 /**
  * @swagger
@@ -97,9 +129,11 @@ router.post('/login', validateRequest(logInSchema), logIn);
 /**
  * @swagger
  * /api/logout:
- *  get:
+ *  post:
  *   tags: [Auth]
  *   summary: Log out of the application
+ *   security:
+ *    - cookieAuth: []
  *   responses:
  *    200:
  *     description: User logged out successfully
@@ -117,6 +151,6 @@ router.post('/login', validateRequest(logInSchema), logIn);
  *        error:
  *         type: object
  */
-router.get('/logout', logOut);
+router.post('/logout', checkIfAuthorized, logOut);
 
 export default router;

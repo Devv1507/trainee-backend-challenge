@@ -12,15 +12,32 @@ import { checkIfAuthorized } from '../../middlewares/checkAuth';
  *  get:
  *   tags: [User]
  *   summary: Get all users
+ *   security:
+ *    - cookieAuth: []
  *   responses:
  *    200:
  *     description: Object with all users
  *     content:
  *      application/json:
- *     schema:
- *      $ref: '#/components/schemas/User'
+ *       schema:
+ *        $ref: '#/components/schemas/User'
+ *    401:
+ *     description: Unauthorized
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/UnauthorizedRequest'
+ *    500:
+ *     description: Internal server error
+ *     content:
+ *      application/json:
+ *       items:
+ *        message:
+ *         type: string
+ *         example: 'Ha ocurrido un error al intentar obtener los usuarios'
  */
 router.get('/all', checkIfAuthorized,  getAll);
+
 // Get my user - any
 /**
  * @swagger
@@ -29,12 +46,9 @@ router.get('/all', checkIfAuthorized,  getAll);
  *   tags: [User]
  *   summary: Get user by id
  *   parameters:
- *    - in: path
- *      name: id
- *      required: true
- *      description: Id of the user
- *      schema:
- *       type: string
+ *    - $ref: '#/components/parameters/userId'
+ *   security:
+ *    - cookieAuth: []
  *   responses:
  *    200:
  *     description: Object with the user
@@ -42,6 +56,12 @@ router.get('/all', checkIfAuthorized,  getAll);
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/User'
+ *    401:
+ *     description: Unauthorized
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/UnauthorizedRequest'
  */
 router.get('/:id', checkIfAuthorized, getById);
 // Delete user - admin
@@ -52,12 +72,9 @@ router.get('/:id', checkIfAuthorized, getById);
  *   tags: [User]
  *   summary: Delete user by id
  *   parameters:
- *    - in: path
- *      name: id
- *      required: true
- *      description: Id of the user
- *      schema:
- *       type: string
+ *    - $ref: '#/components/parameters/userId'
+ *   security:
+ *    - cookieAuth: []
  *   responses:
  *    200:
  *     description: Object with the user
@@ -65,6 +82,12 @@ router.get('/:id', checkIfAuthorized, getById);
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/User'
+ *    401:
+ *     description: Unauthorized
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/UnauthorizedRequest'
  */
 router.delete('/:id', checkIfAuthorized,  deleteUser);
 // Update user information - any
@@ -75,12 +98,9 @@ router.delete('/:id', checkIfAuthorized,  deleteUser);
  *   tags: [User]
  *   summary: Update user information
  *   parameters:
- *    - in: path
- *      name: id
- *      required: true
- *      description: Id of the user
- *      schema:
- *       type: string
+ *     - $ref: '#/components/parameters/userId'
+ *   security:
+ *    - cookieAuth: []
  *   requestBody:
  *    required: true
  *    content:
@@ -94,6 +114,12 @@ router.delete('/:id', checkIfAuthorized,  deleteUser);
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/User'
+ *    401:
+ *     description: Unauthorized
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/UnauthorizedRequest'
  */
 router.put('/update/:id', checkIfAuthorized, updateUser);
 

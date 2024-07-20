@@ -1,7 +1,6 @@
 import passport from 'passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import User from '../database/models/user';
-import { Key } from 'readline';
 
 const options = {
   jwtFromRequest: ExtractJwt.fromExtractors([
@@ -17,15 +16,14 @@ const options = {
 };
 
 passport.use(
-  new Strategy(options, async (jwt_payload: { email: any; }, done: (arg0: unknown, arg1: boolean | User | undefined, arg2: { message: string; } | undefined) => any) => {
+  new Strategy(options, async (jwt_payload: { id: any ;email: any; }, done: (arg0: unknown, arg1: boolean | User | undefined, arg2: { message: string; } | undefined) => any) => {
     try {
-      const account = await User.findOne({
-        where: { email: jwt_payload.email },
+      const user = await User.findByPk(jwt_payload.id, {
         attributes: {
           exclude: ['password'],
         }
       });
-      if (account) return done(null, account, {message: 'Usuario válido'});
+      if (user) return done(null, user, {message: 'Usuario válido'});
       return done(null, false, {message: 'No se ha encontrado al usuario'});
     } catch (error) {
       return done(null, undefined, {message: `${error}`});

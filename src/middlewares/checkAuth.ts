@@ -13,6 +13,7 @@ export const checkIfAuthorized = (req: Request, res: Response, next: NextFunctio
     }
     // Continue to the next middleware or route handler if authorized
     res.locals.userData = user;
+    console.log(user);
     next();
   })(req, res, next);
 };
