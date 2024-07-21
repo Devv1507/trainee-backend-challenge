@@ -3,7 +3,7 @@
 ## Descripción
 REST API para gestión de tareas de usuarios con base en reto de prueba técnica.
 
-[Arquitectura base de la REST API](/api-architecture.drawio.png)
+![Arquitectura base de la REST API](/api-architecture.drawio.png)
 
 ## Tecnologías
 
