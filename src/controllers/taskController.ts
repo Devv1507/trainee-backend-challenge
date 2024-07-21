@@ -50,9 +50,9 @@ export const addTask: Handler = async (req, res) => {
 
 export const updateTask: Handler = async (req, res) => {
     try {
-        const taskId = req.params.id;
+        const taskN = req.params.id;
         const { body } = req;
-        const targeTask = await Task.findOne({where: { userId: res.locals.userId, id: taskId }});
+        const targeTask = await Task.findOne({where: { userId: res.locals.userId, taskN }});
         if (targeTask === null) {
             return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
             }
@@ -68,8 +68,8 @@ export const updateTask: Handler = async (req, res) => {
 export const deleteTask: Handler = async (req, res) => {
     try {
         const id = res.locals.userId;
-        const taskId = req.params.id;
-        const targeTask = await Task.findOne({ where: { userId: id, id: taskId } });
+        const taskN = req.params.id;
+        const targeTask = await Task.findOne({ where: { userId: id, taskN } });
         if (targeTask === null) {
           return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
         }

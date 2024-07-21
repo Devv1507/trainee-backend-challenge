@@ -13,7 +13,7 @@ import { checkToken } from '../../middlewares/checkAuth';
  *   tags: [User]
  *   summary: Get all users
  *   security:
- *    - cookieAuth: []
+ *    - bearerAuth: []
  *   responses:
  *    200:
  *     description: Object with all users
@@ -48,7 +48,7 @@ router.get('/all', checkToken,  getAll);
  *   parameters:
  *    - $ref: '#/components/parameters/userId'
  *   security:
- *    - cookieAuth: []
+ *    - bearerAuth: []
  *   responses:
  *    200:
  *     description: Object with the user
@@ -74,7 +74,7 @@ router.get('/:id', checkToken, getById);
  *   parameters:
  *    - $ref: '#/components/parameters/userId'
  *   security:
- *    - cookieAuth: []
+ *    - bearerAuth: []
  *   responses:
  *    200:
  *     description: Object with the user
@@ -100,7 +100,7 @@ router.delete('/:id', checkToken,  deleteUser);
  *   parameters:
  *     - $ref: '#/components/parameters/userId'
  *   security:
- *    - cookieAuth: []
+ *    - bearerAuth: []
  *   requestBody:
  *    required: true
  *    content:

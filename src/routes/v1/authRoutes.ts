@@ -20,13 +20,20 @@ import {checkToken} from '../../middlewares/checkAuth';
  *    required: true
  *    schema:
  *     type: string
+ *   taskN:
+ *    in: path
+ *    name: id
+ *    description: Integer of specific task of a user
+ *    required: true
+ *    schema:
+ *     type: integer   
  * 
  *  securitySchemes:
- *   cookieAuth:
- *    type: apiKey
- *    in: cookie
- *    name: refreshToken
- *    description: The refresh token to authenticate
+ *   bearerAuth:
+ *    type: http
+ *    scheme: bearer
+ *    bearerFormat: JWT
+ *    description: Authorization header with JWT token
  * 
  *  schemas:
  *   UnauthorizedRequest:
@@ -133,7 +140,7 @@ router.post('/login', validateRequest(logInSchema), logIn);
  *   tags: [Auth]
  *   summary: Log out of the application
  *   security:
- *    - cookieAuth: []
+ *    - bearerAuth: []
  *   responses:
  *    200:
  *     description: User logged out successfully
@@ -152,8 +159,23 @@ router.post('/login', validateRequest(logInSchema), logIn);
  *         type: object
  */
 router.post('/logout', checkToken, logOut);
-
-
+// Refresh Token
+/**
+ * @swagger
+ * /api/refresh-token:
+ *  get:
+ *   tags: [Auth]
+ *   summary: Refresh the token
+ *   responses:
+ *    200:
+ *     description: Token refreshed successfully
+ *     content:
+ *      application/json:
+ *       items:
+ *        accessToken: 
+ *         type: string
+ *         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4ZmM2MjNmOC03NjVlLTRjMjctODJiOS04N2NkM2QzODdkMGIiLCJpYXQiOjE3MjE1MzQ5MDcuNjg0LCJleHAiOjE3MjE1MzU4MDd9.pHcEd8H6yai_aOAp1kYv_ERZtdjp-z9YscK_XpESnCQ
+ */
 router.get('/refresh-token', handleRefreshToken);
 
 export default router;
