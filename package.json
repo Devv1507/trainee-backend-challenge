@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/index.js",
-    "dev": "tsnd --respawn src/index.ts"
+    "dev": "tsnd --respawn src/index.ts",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
