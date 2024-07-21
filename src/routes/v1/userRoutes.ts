@@ -22,19 +22,11 @@ import { checkToken } from '../../middlewares/checkAuth';
  *       schema:
  *        $ref: '#/components/schemas/User'
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
- *    500:
- *     description: Internal server error
- *     content:
- *      application/json:
- *       items:
- *        message:
- *         type: string
- *         example: 'Ha ocurrido un error al intentar obtener los usuarios'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.get('/all', checkToken,  getAll);
 
@@ -57,13 +49,14 @@ router.get('/all', checkToken,  getAll);
  *       schema:
  *        $ref: '#/components/schemas/User'
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.get('/:id', checkToken, getById);
+
 // Delete user - admin
 /**
  * @swagger
@@ -76,20 +69,17 @@ router.get('/:id', checkToken, getById);
  *   security:
  *    - bearerAuth: []
  *   responses:
- *    200:
- *     description: Object with the user
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/User'
+ *    204:
+ *     description: The resource was deleted successfully.
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.delete('/:id', checkToken,  deleteUser);
+
 // Update user information - any
 /**
  * @swagger
@@ -108,18 +98,18 @@ router.delete('/:id', checkToken,  deleteUser);
  *      schema:
  *       $ref: '#/components/schemas/User'
  *   responses:
- *    200:
- *     description: Object with the user
+ *    204:
+ *     description: The resource was updated successfully.
  *     content:
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/User'
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.put('/update/:id', checkToken, updateUser);
 

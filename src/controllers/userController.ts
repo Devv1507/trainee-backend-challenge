@@ -40,7 +40,7 @@ export const deleteUser: Handler = async (req, res) => {
       return res.status(404).json({ success: false, message: 'La cuenta no ha sido encontrada' });
     } else {
       await target.destroy();
-      res.status(200).json('La cuenta específicada ha sido eliminada');
+      res.status(204).json('La cuenta específicada ha sido eliminada');
     }
   } catch (error: any) {
     res.status(500).send({ success: false, message: error.message });

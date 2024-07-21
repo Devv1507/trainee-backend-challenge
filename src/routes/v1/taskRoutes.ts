@@ -23,6 +23,12 @@ import { taskSchema } from '../../validators/schemas/taskSchemas';
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/Task'
+ *    401:
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.get('/all', checkToken, getUserTasks);
 // Add a task
@@ -47,6 +53,12 @@ router.get('/all', checkToken, getUserTasks);
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/Task'
+ *    401:
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.post('/add', validateRequest(taskSchema), checkToken, addTask);
 // Update a task
@@ -73,6 +85,12 @@ router.post('/add', validateRequest(taskSchema), checkToken, addTask);
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/Task'
+ *    401:
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.put('/:id', checkToken, updateTask);
 // Delete a task
@@ -93,6 +111,12 @@ router.put('/:id', checkToken, updateTask);
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/Task'
+ *    401:
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.delete('/:id', checkToken, deleteTask);
 

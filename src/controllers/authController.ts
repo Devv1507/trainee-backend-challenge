@@ -134,13 +134,13 @@ export const logOut: Handler = async (req, res) => {
 // ************************ Refresh Token logic
 export const handleRefreshToken: Handler = async (req, res) => {
   const { refreshToken } = req.cookies;
-  if (!refreshToken) return res.status(400).json({ message: 'Cookies sin token de refresco' });
+  if (!refreshToken) return res.status(401).json({ message: 'Cookies sin token de refresco' });
   const userFound = await User.findOne({ where: { refreshToken } });
   if (!userFound) return res.status(403).json('Token inválido');
 
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, async (err: any, decoded: any) => {
-    if (err) return res.status(400).json('El token ha expirado');
-    if (userFound.id !== decoded.sub) return res.status(401).json('Acceso no autorizado');
+    if (err) return res.status(401).json('El token ha expirado');
+    if (userFound.id !== decoded.sub) return res.status(403).json('Acceso no autorizado');
     const accessToken = assignJWT(
       userFound,
       process.env.ACCESS_TOKEN_SECRET as string,

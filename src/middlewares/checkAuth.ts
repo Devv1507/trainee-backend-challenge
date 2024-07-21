@@ -6,12 +6,12 @@ import User from '../database/models/user';
 export const checkToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
-    return res.status(400).json({ message: 'No se ha encontrado token de autenticación'});
+    return res.status(401).json({ message: 'No se ha encontrado token de autenticación'});
   }
   const token = authHeader.split(' ')[1];
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, async (err: any, decoded: any) => {
     if (err) {
-      return res.status(401).json({ message: 'Token inválido o expirado' });
+      return res.status(403).json({ message: 'Token inválido o expirado' });
     }
     console.log(decoded);
     const { sub } = decoded;
@@ -22,7 +22,7 @@ export const checkToken = (req: Request, res: Response, next: NextFunction) => {
     });
     console.log(userFound?.dataValues);
     if (!userFound) {
-      return res.status(404).json({ message: 'Usuario no encontrado' });
+      return res.status(403).json({ message: 'Token inválido o expirado' });
     }
     // Continue to the next middleware or route handler if authorized
     res.locals.userId = sub;

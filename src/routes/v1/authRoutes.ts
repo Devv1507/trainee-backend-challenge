@@ -35,14 +35,48 @@ import {checkToken} from '../../middlewares/checkAuth';
  *    bearerFormat: JWT
  *    description: Authorization header with JWT token
  * 
- *  schemas:
- *   UnauthorizedRequest:
- *    description: API key is missing or invalid
- *    headers:
- *     WWW_Authenticate:
+ *  responses:
+ *   UnauthorizedError:
+ *    description: Access token is missing or invalid
+ *    content:
+ *     application/json:
  *      schema:
- *       type: string
- *        
+ *       $ref: '#/components/schemas/Error'
+ *   NotFound:
+ *    description: The specified resource was not found
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/Error'
+ *   AuthBadRequest:
+ *    description: Bad request
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/Error'
+ *   Forbidden:
+ *    description: The user does not have the necessary permissions for a resource
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/Error'
+ *   InternalServerError:
+ *    description: Internal server error
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/components/schemas/Error'
+ * 
+ *  schemas:
+ *   Error:
+ *    type: object
+ *    properties:
+ *     code:
+ *      type: string
+ *     message:
+ *      type: string
+ *    required:
+ *     - message
  */
 
 // Sign Up
@@ -73,14 +107,8 @@ import {checkToken} from '../../middlewares/checkAuth';
  *         errors:
  *          type: array
  *          example: ['Por favor añada un nombre para la cuenta', 'Por favor añada un email', 'Por favor añada una contraseña', 'Las contraseñas no coinciden, intente de nuevo']
- *    500:
- *     description: Internal server error
- *     content:
- *      application/json:
- *       items:
- *        message:
- *         type: string
- *         example: 'Ha ocurrido un error al intentar crear el usuario'
+ *    5XX:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/sign-up', validateRequest(registerSchema), signUp);
 // Log In
@@ -122,14 +150,8 @@ router.post('/sign-up', validateRequest(registerSchema), signUp);
  *        errors:
  *         type: array
  *         example: ['Email no encontrado. Por favor, intente de nuevo', 'Constraseña incorrecta']
- *    500:
- *     description: Internal server error
- *     content:
- *      application/json:
- *       items:
- *        message:
- *         type: string
- *         example: 'Algo fue mal en el inicio de sesión'
+ *    5XX:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/login', validateRequest(logInSchema), logIn);
 // Log Out
@@ -142,21 +164,10 @@ router.post('/login', validateRequest(logInSchema), logIn);
  *   security:
  *    - bearerAuth: []
  *   responses:
- *    200:
+ *    204:
  *     description: User logged out successfully
- *     content:
- *      application/json:
- *       items:
- *        message:
- *         type: string
- *         example: 'Cierre de sesión exitoso'
- *    500:
- *     description: Internal server error
- *     content:
- *      application/json:
- *       items:
- *        error:
- *         type: object
+ *    5XX:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/logout', checkToken, logOut);
 // Refresh Token
@@ -167,7 +178,7 @@ router.post('/logout', checkToken, logOut);
  *   tags: [Auth]
  *   summary: Refresh the token
  *   responses:
- *    200:
+ *    201:
  *     description: Token refreshed successfully
  *     content:
  *      application/json:
@@ -175,6 +186,12 @@ router.post('/logout', checkToken, logOut);
  *        accessToken: 
  *         type: string
  *         example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4ZmM2MjNmOC03NjVlLTRjMjctODJiOS04N2NkM2QzODdkMGIiLCJpYXQiOjE3MjE1MzQ5MDcuNjg0LCJleHAiOjE3MjE1MzU4MDd9.pHcEd8H6yai_aOAp1kYv_ERZtdjp-z9YscK_XpESnCQ
+ *    401:
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/refresh-token', handleRefreshToken);
 
