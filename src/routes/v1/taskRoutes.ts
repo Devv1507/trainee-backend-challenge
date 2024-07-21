@@ -27,8 +27,8 @@ import { taskSchema } from '../../validators/schemas/taskSchemas';
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/all', checkToken, getUserTasks);
 // Add a task
@@ -57,8 +57,8 @@ router.get('/all', checkToken, getUserTasks);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/add', validateRequest(taskSchema), checkToken, addTask);
 // Update a task
@@ -89,8 +89,8 @@ router.post('/add', validateRequest(taskSchema), checkToken, addTask);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.put('/:id', checkToken, updateTask);
 // Delete a task
@@ -115,8 +115,8 @@ router.put('/:id', checkToken, updateTask);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.delete('/:id', checkToken, deleteTask);
 

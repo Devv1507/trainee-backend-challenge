@@ -107,7 +107,7 @@ import {checkToken} from '../../middlewares/checkAuth';
  *         errors:
  *          type: array
  *          example: ['Por favor añada un nombre para la cuenta', 'Por favor añada un email', 'Por favor añada una contraseña', 'Las contraseñas no coinciden, intente de nuevo']
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/sign-up', validateRequest(registerSchema), signUp);
@@ -150,7 +150,7 @@ router.post('/sign-up', validateRequest(registerSchema), signUp);
  *        errors:
  *         type: array
  *         example: ['Email no encontrado. Por favor, intente de nuevo', 'Constraseña incorrecta']
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/login', validateRequest(logInSchema), logIn);
@@ -166,7 +166,7 @@ router.post('/login', validateRequest(logInSchema), logIn);
  *   responses:
  *    204:
  *     description: User logged out successfully
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/logout', checkToken, logOut);
@@ -190,7 +190,7 @@ router.post('/logout', checkToken, logOut);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/refresh-token', handleRefreshToken);

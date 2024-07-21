@@ -148,15 +148,15 @@ exports.logOut = logOut;
 const handleRefreshToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { refreshToken } = req.cookies;
     if (!refreshToken)
-        return res.status(400).json({ message: 'Cookies sin token de refresco' });
+        return res.status(401).json({ message: 'Cookies sin token de refresco' });
     const userFound = yield user_1.default.findOne({ where: { refreshToken } });
     if (!userFound)
         return res.status(403).json('Token inválido');
     jsonwebtoken_1.default.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
         if (err)
-            return res.status(400).json('El token ha expirado');
+            return res.status(401).json('El token ha expirado');
         if (userFound.id !== decoded.sub)
-            return res.status(401).json('Acceso no autorizado');
+            return res.status(403).json('Acceso no autorizado');
         const accessToken = (0, createToken_1.assignJWT)(userFound, process.env.ACCESS_TOKEN_SECRET, process.env.ACCESS_TOKEN_EXPIRATION);
         res.status(201).json({ accessToken });
     }));

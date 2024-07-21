@@ -25,8 +25,8 @@ import { checkToken } from '../../middlewares/checkAuth';
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/all', checkToken,  getAll);
 
@@ -52,8 +52,8 @@ router.get('/all', checkToken,  getAll);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/:id', checkToken, getById);
 
@@ -75,8 +75,8 @@ router.get('/:id', checkToken, getById);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.delete('/:id', checkToken,  deleteUser);
 
@@ -108,8 +108,8 @@ router.delete('/:id', checkToken,  deleteUser);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.put('/update/:id', checkToken, updateUser);
 

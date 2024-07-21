@@ -58,7 +58,7 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         else {
             yield target.destroy();
-            res.status(200).json('La cuenta específicada ha sido eliminada');
+            res.status(204).json('La cuenta específicada ha sido eliminada');
         }
     }
     catch (error) {

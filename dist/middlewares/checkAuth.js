@@ -19,12 +19,12 @@ const user_1 = __importDefault(require("../database/models/user"));
 const checkToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
-        return res.status(400).json({ message: 'No se ha encontrado token de autenticación' });
+        return res.status(401).json({ message: 'No se ha encontrado token de autenticación' });
     }
     const token = authHeader.split(' ')[1];
     jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => __awaiter(void 0, void 0, void 0, function* () {
         if (err) {
-            return res.status(401).json({ message: 'Token inválido o expirado' });
+            return res.status(403).json({ message: 'Token inválido o expirado' });
         }
         console.log(decoded);
         const { sub } = decoded;
@@ -35,7 +35,7 @@ const checkToken = (req, res, next) => {
         });
         console.log(userFound === null || userFound === void 0 ? void 0 : userFound.dataValues);
         if (!userFound) {
-            return res.status(404).json({ message: 'Usuario no encontrado' });
+            return res.status(403).json({ message: 'Token inválido o expirado' });
         }
         // Continue to the next middleware or route handler if authorized
         res.locals.userId = sub;

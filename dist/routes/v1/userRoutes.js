@@ -23,19 +23,11 @@ const checkAuth_1 = require("../../middlewares/checkAuth");
  *       schema:
  *        $ref: '#/components/schemas/User'
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
- *    500:
- *     description: Internal server error
- *     content:
- *      application/json:
- *       items:
- *        message:
- *         type: string
- *         example: 'Ha ocurrido un error al intentar obtener los usuarios'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.get('/all', checkAuth_1.checkToken, userController_1.getAll);
 // Get my user - any
@@ -57,11 +49,11 @@ router.get('/all', checkAuth_1.checkToken, userController_1.getAll);
  *       schema:
  *        $ref: '#/components/schemas/User'
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.get('/:id', checkAuth_1.checkToken, userController_1.getById);
 // Delete user - admin
@@ -76,18 +68,14 @@ router.get('/:id', checkAuth_1.checkToken, userController_1.getById);
  *   security:
  *    - bearerAuth: []
  *   responses:
- *    200:
- *     description: Object with the user
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/User'
+ *    204:
+ *     description: The resource was deleted successfully.
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.delete('/:id', checkAuth_1.checkToken, userController_1.deleteUser);
 // Update user information - any
@@ -108,18 +96,18 @@ router.delete('/:id', checkAuth_1.checkToken, userController_1.deleteUser);
  *      schema:
  *       $ref: '#/components/schemas/User'
  *   responses:
- *    200:
- *     description: Object with the user
+ *    204:
+ *     description: The resource was updated successfully.
  *     content:
  *      application/json:
  *       schema:
  *        $ref: '#/components/schemas/User'
  *    401:
- *     description: Unauthorized
- *     content:
- *      application/json:
- *       schema:
- *        $ref: '#/components/schemas/UnauthorizedRequest'
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    5XX:
+ *     $ref: '#/components/responses/ServerError'
  */
 router.put('/update/:id', checkAuth_1.checkToken, userController_1.updateUser);
 exports.default = router;
