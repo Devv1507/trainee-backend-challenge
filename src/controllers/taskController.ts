@@ -1,6 +1,18 @@
 import { Handler } from 'express';
 import Task from '../database/models/task';
 
+
+/**
+ * Get all tasks for the authenticated user.
+ * 
+ * @function getUserTasks
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Retrieves all tasks for the authenticated user, if not errors.
+ * @throws {NotFoundError} If no task for the user is found.
+ * @throws {Error} If there is a server error.
+ */
 export const getUserTasks: Handler = async (req, res) => {
     try {
         const id = res.locals.userId; 
@@ -16,6 +28,18 @@ export const getUserTasks: Handler = async (req, res) => {
       }
 };
 
+/**
+ * Get a single task for the authenticated user by task ID.
+ * 
+ * @function getUserSingleTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - Task ID.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @throws {NotFoundError} If the task is not found.
+ * @description Retrieves a single task for the authenticated user by task ID.
+ */
 export const getUserSingleTask: Handler = async (req, res) => {
     try {
         const id = res.locals.userId;
@@ -30,6 +54,21 @@ export const getUserSingleTask: Handler = async (req, res) => {
       }
 };
 
+/**
+ * Add a new task for the authenticated user.
+ * 
+ * @function addTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Request body.
+ * @param {string} req.body.title - Task title.
+ * @param {string} req.body.description - Task description.
+ * @param {string} req.body.limitDate - Task limit date.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Creates a new task for the authenticated user. Return validation errors if found.
+ * @throws {ValidationError} If the request body is invalid.
+ * @throws {Error} If there is a server error.
+ */
 export const addTask: Handler = async (req, res) => {
     const id = res.locals.userId;
     const { body } = req;
@@ -62,6 +101,25 @@ export const addTask: Handler = async (req, res) => {
       }
 };
 
+/**
+ * Update an existing task for the authenticated user by task ID.
+ * 
+ * @function updateTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - Task Number.
+ * @param {Object} req.body - Request body.
+ * @param {string} [req.body.title] - New task title
+ * @param {string} [req.body.description] - New task description.
+ * @param {string} [req.body.limitDate] - New task limit date.
+ * @param {string} [req.body.status] - New task status.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Updates an existing task for the authenticated user by task number.
+ * @throws {NotFoundError} If the user is not found.
+ * @throws {ValidationError} If the request body is invalid.
+ * @throws {Error} If there is a server error.
+ */
 export const updateTask: Handler = async (req, res) => {
     try {
         const taskN = req.params.id;
@@ -79,6 +137,19 @@ export const updateTask: Handler = async (req, res) => {
       }
 };
 
+/**
+ * Delete an existing task for the authenticated user by task ID.
+ * 
+ * @function deleteTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - Task ID.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Deletes an existing task for the authenticated user by task number.
+ * @throws {NotFoundError} If the target task is not found.
+ * @throws {Error} If there is a server error.
+ */
 export const deleteTask: Handler = async (req, res) => {
     try {
         const id = res.locals.userId;
