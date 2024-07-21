@@ -6,6 +6,7 @@ import {
   CreatedAt,
   UpdatedAt,
   ForeignKey,
+  BeforeCreate,
 } from 'sequelize-typescript';
 import User from './user';
 
@@ -17,16 +18,24 @@ import User from './user';
 class Task extends Model{
   @Column({
     primaryKey: true,
-    autoIncrement: true,
-    type: DataType.INTEGER,
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV4,
   })
-  id!: number;
+  id!: string;
 
   @ForeignKey(() => User)
   @Column({
     type: DataType.UUID,
+    allowNull: false,
   })
   userId!: string;
+
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+  })
+  taskN!: number;
 
   @Column({
     type: DataType.STRING(60),
@@ -58,6 +67,15 @@ class Task extends Model{
 
   @UpdatedAt
   updatedAt!: Date;
+
+  @BeforeCreate
+  static async setTaskNextId(task: Task, options: any) {
+    const initTask =  await Task.findOne({
+      where: { userId: task.userId },
+      order: [['taskN', 'DESC']],
+    });
+    task.taskN = initTask ? initTask.taskN + 1 : 1;
+  }
 }
 
 export default Task;
