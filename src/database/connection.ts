@@ -19,6 +19,7 @@ const sequelize = new Sequelize({
     },
   },
   models: [__dirname + '/models'],
+  logging: false
 });
 
 export default sequelize;

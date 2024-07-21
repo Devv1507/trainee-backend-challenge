@@ -2,7 +2,7 @@ import {Router} from 'express';
 const router = Router();
 // ************************ Controllers & Middlewares ************************
 import { getById, getAll, updateUser, deleteUser } from '../../controllers/userController';
-import { checkIfAuthorized } from '../../middlewares/checkAuth';
+import { checkToken } from '../../middlewares/checkAuth';
 
 // ************************ Private Routes ************************
 // Get all users  - admin
@@ -36,7 +36,7 @@ import { checkIfAuthorized } from '../../middlewares/checkAuth';
  *         type: string
  *         example: 'Ha ocurrido un error al intentar obtener los usuarios'
  */
-router.get('/all', checkIfAuthorized,  getAll);
+router.get('/all', checkToken,  getAll);
 
 // Get my user - any
 /**
@@ -63,7 +63,7 @@ router.get('/all', checkIfAuthorized,  getAll);
  *       schema:
  *        $ref: '#/components/schemas/UnauthorizedRequest'
  */
-router.get('/:id', checkIfAuthorized, getById);
+router.get('/:id', checkToken, getById);
 // Delete user - admin
 /**
  * @swagger
@@ -89,7 +89,7 @@ router.get('/:id', checkIfAuthorized, getById);
  *       schema:
  *        $ref: '#/components/schemas/UnauthorizedRequest'
  */
-router.delete('/:id', checkIfAuthorized,  deleteUser);
+router.delete('/:id', checkToken,  deleteUser);
 // Update user information - any
 /**
  * @swagger
@@ -121,6 +121,6 @@ router.delete('/:id', checkIfAuthorized,  deleteUser);
  *       schema:
  *        $ref: '#/components/schemas/UnauthorizedRequest'
  */
-router.put('/update/:id', checkIfAuthorized, updateUser);
+router.put('/update/:id', checkToken, updateUser);
 
 export default router;

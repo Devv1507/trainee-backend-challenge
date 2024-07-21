@@ -8,9 +8,9 @@ const options = {
 };
 
 passport.use(
-  new Strategy(options, async (jwt_payload: { sub: string }, done: (err: any, decoded: boolean | User ) => any) => {
+  new Strategy(options, async (jwt_payload: { sub: string }, done: (err: any, decoded: boolean | User ) => void) => {
     try {
-      console.log(jwt_payload);
+      if (jwt_payload === null) return done('error', false);
       const user = await User.findByPk(jwt_payload.sub, {
         attributes: {
           exclude: ['name','password'],

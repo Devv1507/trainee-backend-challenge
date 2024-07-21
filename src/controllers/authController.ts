@@ -117,10 +117,20 @@ export const logIn: Handler = async (req, res) => {
  * @param res - Request object
  */
 export const logOut: Handler = async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) { return res.sendStatus(204); }
+
+  const founUser = await User.findByPk(refreshToken.sub);
+  if (!founUser) {
+    res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true });
+    return res.sendStatus(204);
+  }
+  
+
   res.cookie('refreshToken', '', {
     maxAge: 0,
   });
-  res.status(200).json({ message: 'Cierre de sesión exitoso' });
+  res.sendStatus(204);
 };
 // ************************ Refresh Token logic
 export const handleRefreshToken: Handler = (req, res) => {
@@ -131,7 +141,7 @@ export const handleRefreshToken: Handler = (req, res) => {
     if (err) return res.status(403).json('No se encontro token de refresco');
     const userFound = await User.findByPk(decoded.id);
     if (!userFound) return res.status(403).json('Token inválido');
-    
+
     const accessToken = await assignJWT(
       userFound,
       process.env.ACCESS_TOKEN_SECRET as string,

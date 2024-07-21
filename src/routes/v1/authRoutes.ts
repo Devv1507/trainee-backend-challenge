@@ -4,7 +4,7 @@ const router = Router();
 import {signUp, logIn, logOut} from '../../controllers/authController';
 import {validateRequest} from '../../middlewares/schemasHandler';
 import {registerSchema, logInSchema} from '../../validators/schemas/authSchemas';
-import {checkIfAuthorized} from '../../middlewares/checkAuth';
+import {checkToken} from '../../middlewares/checkAuth';
 
 // ************************ Public Routes ************************
 
@@ -151,6 +151,6 @@ router.post('/login', validateRequest(logInSchema), logIn);
  *        error:
  *         type: object
  */
-router.post('/logout', checkIfAuthorized, logOut);
+router.post('/logout', checkToken, logOut);
 
 export default router;

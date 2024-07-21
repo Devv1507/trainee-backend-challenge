@@ -1,21 +1,18 @@
 import express, { Express} from 'express';
 import dotenv from 'dotenv';
-dotenv.config();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import passport from './middlewares/passport-jwt';
 import swaggerJSDoc from 'swagger-jsdoc';
 import swaggerUI from 'swagger-ui-express';
 import { options } from './swaggerOptions';
 
 // ************************ Settings ************************
 const app: Express = express();
+dotenv.config();
 
 // ************************ Middlewares ************************
 // To use body parser functionality to read and parse JSON in req.body
 app.use(express.json());
-// To initialize passport
-app.use(passport.initialize());
 // To work with cookies
 app.use(cookieParser());
 // To allow cross-origin requests (mainly for Swagger)
