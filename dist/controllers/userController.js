@@ -12,26 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateAccount = exports.deleteAccount = exports.getAll = exports.getById = void 0;
-const models_1 = __importDefault(require("../models"));
+exports.updateUser = exports.deleteUser = exports.getAll = exports.getById = void 0;
+const user_1 = __importDefault(require("../database/models/user"));
 //const { issueJWT } = require('../libs/createToken');
 // ************************ Controller functions ************************
-// Get account by ID
+// Get user by ID
 const getById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { email } = req.params; // req.userData ######################################
-        const account = yield models_1.default.Account.findOne({
-            where: { email },
+        const id = res.locals.id;
+        const user = yield user_1.default.findByPk(id, {
             attributes: {
                 exclude: ['password'],
             }
         });
-        if (account) {
-            res.json({ success: true, message: account, admin: res.locals.adminRole });
-            //res.render('accounts/account-home', {account});
+        if (user) {
+            res.json({ success: true, message: user });
         }
         else {
-            res.status(400).json('User not found');
+            res.status(400).json('Usuario no encontrado');
         }
     }
     catch (error) {
@@ -42,13 +40,8 @@ exports.getById = getById;
 // Get all accounts
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const accounts = yield models_1.default.Account.findAll();
-        if (accounts) {
-            res.json({ success: true, message: accounts });
-        }
-        else {
-            res.status(400).json('User not found');
-        }
+        const users = yield user_1.default.findAll();
+        res.json({ success: true, message: users });
     }
     catch (error) {
         res.status(500).send({ success: false, message: error.message });
@@ -56,30 +49,40 @@ const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getAll = getAll;
 // Delete an account
-const deleteAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const target = yield models_1.default.Account.findByPk(id);
-        yield target.destroy();
-        //********************** */
-        res.status(200).json('La cuenta específicada ha sido eliminada');
+        const target = yield user_1.default.findByPk(id);
+        if (target === null) {
+            return res.status(404).json({ success: false, message: 'La cuenta no ha sido encontrada' });
+        }
+        else {
+            yield target.destroy();
+            res.status(200).json('La cuenta específicada ha sido eliminada');
+        }
     }
     catch (error) {
         res.status(500).send({ success: false, message: error.message });
     }
 });
-exports.deleteAccount = deleteAccount;
+exports.deleteUser = deleteUser;
 // Update an account
-const updateAccount = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const target = yield models_1.default.Account.findByPk(id);
         const { body } = req;
-        const updated = yield target.update(body);
-        res.status(200).json(updated);
+        const target = yield user_1.default.findByPk(id);
+        if (target === null) {
+            return res.status(404).json({ success: false, message: 'La cuenta no ha sido encontrada' });
+        }
+        else {
+            const updated = yield target.update(body);
+            res.status(200).json(updated);
+        }
     }
     catch (error) {
         res.status(500).send({ success: false, message: error.message });
     }
 });
-exports.updateAccount = updateAccount;
+exports.updateUser = updateUser;
+//# sourceMappingURL=userController.js.map
