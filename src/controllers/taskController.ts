@@ -3,11 +3,10 @@ import Task from '../database/models/task';
 
 export const getUserTasks: Handler = async (req, res) => {
     try {
-        const { id } = req.params; 
+        const id = res.locals.userId; 
         const userTasks = await Task.findAll({where: { userId: id }});
         if (userTasks.length === 0) {
             res.status(201).json({ success: true, message: 'Usted no tiene ninguna tarea pendiente' });
-            res.redirect('/api/v1/home/');
         } else {
             res.status(200).json({ success: true, message: userTasks });
         }
@@ -18,9 +17,9 @@ export const getUserTasks: Handler = async (req, res) => {
 };
 
 export const addTask: Handler = async (req, res) => {
+    const id = res.locals.userId;
     const { body } = req;
-    const { id } = res.locals.userData;
-    
+    console.log(body);
     // Validate fields on server-side (i.e. nulls)
     const errors = [];
     if (!body.title) {
@@ -39,7 +38,7 @@ export const addTask: Handler = async (req, res) => {
     try {
         // Save the task in DB
         await Task.create({
-          body,
+          ...body,
           userId: id
         });
         res.status(201).json({ success: true, message: 'Se ha añadido la tarea satisfactoriamente' });
@@ -51,16 +50,15 @@ export const addTask: Handler = async (req, res) => {
 
 export const updateTask: Handler = async (req, res) => {
     try {
-        const { id } = req.params;
+        const taskId = req.params.id;
         const { body } = req;
-        const targeTask = await Task.findOne({where: { userId: id}});
+        const targeTask = await Task.findOne({where: { userId: res.locals.userId, id: taskId }});
         if (targeTask === null) {
             return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
             }
         else {
             await targeTask.update(body);
             res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente' });
-            res.redirect('/api/v1/home/');
         }
       } catch (error:any) {
         res.status(500).send({ success: false, message: error.message });
@@ -69,17 +67,15 @@ export const updateTask: Handler = async (req, res) => {
 
 export const deleteTask: Handler = async (req, res) => {
     try {
-        const { id } = req.params;
-        const targeTask = await Task.findOne({
-          where: { userId: id },
-        });
+        const id = res.locals.userId;
+        const taskId = req.params.id;
+        const targeTask = await Task.findOne({ where: { userId: id, id: taskId } });
         if (targeTask === null) {
           return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
         }
         else {
             await targeTask.destroy();
             res.json({ success: true, message: 'Tarea eliminada' });
-            res.redirect('/api/v1/home/');
         }
       } catch (error: any) {
         console.log(error);

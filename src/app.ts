@@ -32,6 +32,6 @@ import v1TaskRouter from './routes/v1/taskRoutes';
 // Using the routers created
 app.use('/api', v1AuthRouter);
 app.use('/api/home', v1UserRouter);
-app.use('/api/home/task', v1TaskRouter);
+app.use('/api/home/tasks', v1TaskRouter);
 
 export default app;

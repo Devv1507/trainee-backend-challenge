@@ -8,12 +8,12 @@ import { taskSchema } from '../../validators/schemas/taskSchemas';
 
 // ************************ Private Routes ************************
 // Get all user tasks
-router.get('/tasks', checkToken, getUserTasks);
+router.get('/all', checkToken, getUserTasks);
 // Add a task
-router.post('/tasks/add', validateRequest(taskSchema), checkToken, addTask);
+router.post('/add', validateRequest(taskSchema), checkToken, addTask);
 // Update a task
-router.put('/tasks/:id', checkToken, updateTask);
+router.put('/:id', checkToken, updateTask);
 // Delete a task
-router.delete('/tasks/:id', checkToken, deleteTask);
+router.delete('/:id', checkToken, deleteTask);
 
 export default router;

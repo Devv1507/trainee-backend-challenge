@@ -20,7 +20,7 @@ class Task extends Model{
     autoIncrement: true,
     type: DataType.INTEGER,
   })
-  id!: string;
+  id!: number;
 
   @ForeignKey(() => User)
   @Column({
@@ -29,7 +29,7 @@ class Task extends Model{
   userId!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(60),
     allowNull: false,
   })
   title!: string;
@@ -37,15 +37,21 @@ class Task extends Model{
   @Column({
     type: DataType.STRING,
     allowNull: false,
-    unique: true,
   })
   description!: string;
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.STRING(20),
     allowNull: false,
+    defaultValue: 'pendiente',
   })
   status!: string;
+
+  @Column({
+    type: DataType.DATEONLY,
+    allowNull: false,
+  })
+  limitDate!: Date;
 
   @CreatedAt
   createdAt!: Date;

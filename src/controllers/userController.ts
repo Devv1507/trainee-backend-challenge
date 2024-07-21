@@ -7,8 +7,8 @@ import User from '../database/models/user';
 // Get user by ID
 export const getById: Handler = async (req, res) => {
   try {
-    const { id } = req.params; // req.userData ######################################
-    const user = await User.findOne({ where: { id },
+    const id = res.locals.id;
+    const user = await User.findByPk(id, {
       attributes: {
         exclude: ['password'],
       }

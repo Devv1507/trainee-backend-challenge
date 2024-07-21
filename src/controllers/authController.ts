@@ -86,13 +86,15 @@ export const logIn: Handler = async (req, res) => {
       return res.status(400).json({ message: 'Constraseña incorrecta' });
     }
     // If the password matchs, generate the tokens
-    const accessToken = await assignJWT(
+    const accessToken = assignJWT(
       user, 
       process.env.ACCESS_TOKEN_SECRET as string, 
       process.env.ACCESS_TOKEN_EXPIRATION as string);
-    const refreshToken = await assignJWT(user, 
+    const refreshToken = assignJWT(user, 
       process.env.REFRESH_TOKEN_SECRET as string, 
       process.env.REFRESH_TOKEN_EXPIRATION as string);
+    // Save the refresh token in user to enhance refresh token security
+    await user.update({refreshToken});
     // Save the refresh token in a browser cookie
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -120,29 +122,26 @@ export const logOut: Handler = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) { return res.sendStatus(204); }
 
-  const founUser = await User.findByPk(refreshToken.sub);
-  if (!founUser) {
+  const userFound = await User.findOne({ where: { refreshToken }});
+  if (!userFound) {
     res.clearCookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true });
     return res.sendStatus(204);
-  }
-  
-
-  res.cookie('refreshToken', '', {
-    maxAge: 0,
-  });
+  };
+  await userFound.update({ refreshToken: '' });
+  res.cookie('refreshToken', { httpOnly: true, sameSite: 'none', secure: true });
   res.sendStatus(204);
 };
 // ************************ Refresh Token logic
-export const handleRefreshToken: Handler = (req, res) => {
+export const handleRefreshToken: Handler = async (req, res) => {
   const { refreshToken } = req.cookies;
-  if (!refreshToken) return res.status(401).json({ message: 'No se encontró token de refresco' });
-  
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, async (err: any, decoded: any) => {
-    if (err) return res.status(403).json('No se encontro token de refresco');
-    const userFound = await User.findByPk(decoded.id);
-    if (!userFound) return res.status(403).json('Token inválido');
+  if (!refreshToken) return res.status(400).json({ message: 'Cookies sin token de refresco' });
+  const userFound = await User.findOne({ where: { refreshToken } });
+  if (!userFound) return res.status(403).json('Token inválido');
 
-    const accessToken = await assignJWT(
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET as string, async (err: any, decoded: any) => {
+    if (err) return res.status(400).json('El token ha expirado');
+    if (userFound.id !== decoded.sub) return res.status(401).json('Acceso no autorizado');
+    const accessToken = assignJWT(
       userFound,
       process.env.ACCESS_TOKEN_SECRET as string,
       process.env.ACCESS_TOKEN_EXPIRATION as string

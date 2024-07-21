@@ -1,7 +1,7 @@
 import {Router} from 'express';
 const router = Router();
 // ************************ Controllers & Middlewares ************************
-import {signUp, logIn, logOut} from '../../controllers/authController';
+import {signUp, logIn, logOut, handleRefreshToken} from '../../controllers/authController';
 import {validateRequest} from '../../middlewares/schemasHandler';
 import {registerSchema, logInSchema} from '../../validators/schemas/authSchemas';
 import {checkToken} from '../../middlewares/checkAuth';
@@ -152,5 +152,8 @@ router.post('/login', validateRequest(logInSchema), logIn);
  *         type: object
  */
 router.post('/logout', checkToken, logOut);
+
+
+router.get('/refresh-token', handleRefreshToken);
 
 export default router;
