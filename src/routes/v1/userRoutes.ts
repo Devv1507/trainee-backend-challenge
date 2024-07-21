@@ -20,7 +20,9 @@ import { checkToken } from '../../middlewares/checkAuth';
  *     content:
  *      application/json:
  *       schema:
- *        $ref: '#/components/schemas/User'
+ *        type: array
+ *        items:
+ *         $ref: '#/components/schemas/User'
  *    401:
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 const router = Router();
 
-import { getUserTasks, addTask, updateTask, deleteTask } from '../../controllers/taskController';
+import { getUserTasks, getUserSingleTask, addTask, updateTask, deleteTask } from '../../controllers/taskController';
 import { checkToken } from '../../middlewares/checkAuth';
 import { validateRequest } from '../../middlewares/schemasHandler';
 import { taskSchema } from '../../schemas/taskSchemas';
@@ -22,7 +22,9 @@ import { taskSchema } from '../../schemas/taskSchemas';
  *     content:
  *      application/json:
  *       schema:
- *        $ref: '#/components/schemas/Task'
+ *        type: array
+ *        items:
+ *         $ref: '#/components/schemas/Task'
  *    401:
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
@@ -31,6 +33,34 @@ import { taskSchema } from '../../schemas/taskSchemas';
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/all', checkToken, getUserTasks);
+
+// Get a single task
+/**
+ * @swagger
+ * /api/home/tasks/{id}:
+ *  get:
+ *   tags: [Task]
+ *   summary: Get a single task of a user
+ *   parameters:
+ *    - $ref: '#/components/parameters/taskN'
+ *   security:
+ *    - bearerAuth: []
+ *   responses:
+ *    200:
+ *     description: Object with the task
+ *     content:
+ *      application/json:
+ *       schema:
+ *        $ref: '#/components/schemas/Task'
+ *    401:
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
+ */
+router.get('/:id', checkToken, getUserSingleTask);
+
 // Add a task
 /**
  * @swagger

@@ -16,6 +16,20 @@ export const getUserTasks: Handler = async (req, res) => {
       }
 };
 
+export const getUserSingleTask: Handler = async (req, res) => {
+    try {
+        const id = res.locals.userId;
+        const taskN = req.params.id;
+        const userTask = await Task.findOne({ where: { userId: id, taskN } });
+        if (userTask === null) {
+          return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
+        }
+        res.status(200).json({ success: true, message: userTask });
+      } catch (error: any) {
+        res.status(500).send({ success: false, message: error.message });
+      }
+};
+
 export const addTask: Handler = async (req, res) => {
     const id = res.locals.userId;
     const { body } = req;
