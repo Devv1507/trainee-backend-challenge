@@ -12,5 +12,5 @@ export const options = {
         },
         ],
     },
-    apis: ['./src/routes/v1/*.ts', './src/database/models/*.ts', './src/validators/schemas/*.ts'],
+    apis: ['./src/routes/v1/*.ts', './src/database/models/*.ts', './src/schemas/*.ts'],
 };
