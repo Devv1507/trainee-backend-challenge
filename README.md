@@ -1,7 +1,18 @@
 # Uses's Task Manegament System - Gestor de Tareas de Usuarios
 
 ## Descripción
-Basic express application to deploy API CRUD functionalities based on Instaleap challenge. Technologies expected: PostgreSQL (with Sequelice), NodeJS, Express Framework with TypeScrypt language and guidelines. Documentation: Swagger, JSDoc. 
+REST API para gestión de tareas de usuarios con base en reto de prueba técnica.
+
+[Arquitectura base de la REST API](/api-architecture.drawio.png)
+
+## Tecnologías
+
+- Typescript
+- Express Framework
+- Autenticación basada en tokens
+- Validación con Zod
+- Comunicación con Postgres DB con Sequelice
+- Documentación de end-points con Swagger
 
 ## Instalación localmente
 ```

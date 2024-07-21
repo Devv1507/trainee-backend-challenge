@@ -4,7 +4,7 @@ const router = Router();
 import { getUserTasks, addTask, updateTask, deleteTask } from '../../controllers/taskController';
 import { checkToken } from '../../middlewares/checkAuth';
 import { validateRequest } from '../../middlewares/schemasHandler';
-import { taskSchema } from '../../validators/schemas/taskSchemas';
+import { taskSchema } from '../../schemas/taskSchemas';
 
 // ************************ Private Routes ************************
 // Get all user tasks

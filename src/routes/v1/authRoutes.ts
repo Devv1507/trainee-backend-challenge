@@ -3,7 +3,7 @@ const router = Router();
 // ************************ Controllers & Middlewares ************************
 import {signUp, logIn, logOut, handleRefreshToken} from '../../controllers/authController';
 import {validateRequest} from '../../middlewares/schemasHandler';
-import {registerSchema, logInSchema} from '../../validators/schemas/authSchemas';
+import {registerSchema, logInSchema} from '../../schemas/authSchemas';
 import {checkToken} from '../../middlewares/checkAuth';
 
 // ************************ Public Routes ************************
