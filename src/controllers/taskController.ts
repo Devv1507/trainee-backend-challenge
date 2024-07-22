@@ -90,11 +90,11 @@ export const addTask: Handler = async (req, res) => {
     }
     try {
         // Save the task in DB
-        await Task.create({
+        const newTask = await Task.create({
           ...body,
           userId: id
         });
-        res.status(201).json({ success: true, message: 'Se ha añadido la tarea satisfactoriamente' });
+        res.status(201).json({ success: true, message: 'Se ha añadido la tarea satisfactoriamente', addedTask: newTask });
       } catch (error: any) {
         console.log(error);
         res.status(500).send({ success: false, message: error.message });
@@ -130,7 +130,7 @@ export const updateTask: Handler = async (req, res) => {
             }
         else {
             await targeTask.update(body);
-            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente' });
+            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente', updatedTask: targeTask });
         }
       } catch (error:any) {
         res.status(500).send({ success: false, message: error.message });
