@@ -83,7 +83,7 @@ const checkAuth_1 = require("../../middlewares/checkAuth");
  * @swagger
  * /api/sign-up:
  *  post:
- *   tags: [User]
+ *   tags: [Auth]
  *   summary: Register a new user
  *   requestBody:
  *    required: true

@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateTaskSchema = exports.taskSchema = void 0;
 const zod_1 = require("zod");
 /**
- * Schema for the registration form
+ * Schema for the task form
  * @swagger
  *
  * components:
@@ -34,10 +34,37 @@ exports.taskSchema = zod_1.z.object({
     description: zod_1.z.string({ required_error: 'Se requiere una descripción' }),
     limitDate: zod_1.z.string({ required_error: 'Se debe agregar una fecha límite para la tarea' }).date('Fecha inválida, por favor añada un formato similar a: 2024-07-18'),
 });
+/**
+ * Schema for the update task form
+ * @swagger
+ *
+ * components:
+ *  schemas:
+ *   UpdateTaskRequest:
+ *    type: object
+ *    properties:
+ *     title:
+ *      type: string
+ *      description: The title of the task
+ *     description:
+ *      type: string
+ *      description: Task description
+ *     limitDate:
+ *      type: string
+ *      description: The limit date to complete the task
+ *     status:
+ *      type: string
+ *      description: The status of the task. Can only be changed to 'avanzando' or 'completada'.
+ *    example:
+ *     title: Tasks management API
+ *     description: Simple CRUD API for managing tasks of users
+ *     limitDate: 2024-12-22
+ *     status: completada
+ */
 exports.updateTaskSchema = zod_1.z.object({
-    title: zod_1.z.string().max(60, { message: 'El título no debe exceder los 60 caracteres' }),
-    description: zod_1.z.string(),
-    limitDate: zod_1.z.string().date('Fecha inválida, por favor añada un formato similar a: 2024-07-18'),
-    status: zod_1.z.string().optional()
+    title: zod_1.z.string().max(60, { message: 'El título no debe exceder los 60 caracteres' }).optional(),
+    description: zod_1.z.string().optional(),
+    limitDate: zod_1.z.string().date('Fecha inválida, por favor añada un formato similar a: 2024-07-18').optional(),
+    status: zod_1.z.enum(['avanzando', 'completada']).optional()
 });
 //# sourceMappingURL=taskSchemas.js.map

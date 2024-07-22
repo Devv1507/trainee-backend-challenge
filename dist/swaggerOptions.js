@@ -12,7 +12,7 @@ exports.options = {
         },
         servers: [
             {
-                url: process.env.SERVER_URL
+                url: process.env.SERVER_URL,
             },
         ],
     },

@@ -30,7 +30,7 @@ const getUserTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         const id = res.locals.userId;
         const userTasks = yield task_1.default.findAll({ where: { userId: id } });
         if (userTasks.length === 0) {
-            res.status(201).json({ success: true, message: 'Usted no tiene ninguna tarea pendiente' });
+            res.status(404).json({ success: false, message: 'Usted no tiene ninguna tarea pendiente' });
         }
         else {
             res.status(200).json({ success: true, message: userTasks });

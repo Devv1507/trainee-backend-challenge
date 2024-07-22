@@ -29,6 +29,8 @@ const taskSchemas_1 = require("../../schemas/taskSchemas");
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
+ *    404:
+ *     $ref: '#/components/responses/NotFound'
  *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
@@ -107,7 +109,7 @@ router.post('/add', (0, schemasHandler_1.validateRequest)(taskSchemas_1.taskSche
  *    content:
  *     application/json:
  *      schema:
- *       $ref: '#/components/schemas/TaskRequest'
+ *       $ref: '#/components/schemas/UpdateTaskRequest'
  *   responses:
  *    200:
  *     description: Object with the updated task
