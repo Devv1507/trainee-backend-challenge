@@ -22,7 +22,7 @@ import {checkToken} from '../../middlewares/checkAuth';
  *     type: string
  *   taskN:
  *    in: path
- *    name: id
+ *    name: taskN
  *    description: Integer of specific task of a user
  *    required: true
  *    schema:

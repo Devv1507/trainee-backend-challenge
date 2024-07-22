@@ -130,7 +130,7 @@ export const updateTask: Handler = async (req, res) => {
             }
         else {
             await targeTask.update(body);
-            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente',  });
+            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente', updateTask: targeTask  });
         }
       } catch (error:any) {
         res.status(500).send({ success: false, message: error.message });
