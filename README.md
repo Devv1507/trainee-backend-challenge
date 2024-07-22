@@ -4,6 +4,7 @@
 REST API para gestión de tareas de usuarios con base en reto de prueba técnica.
 
 ![Arquitectura base de la REST API](/media/api-architecture.drawio.png)
+Nota: los presentes iconos fueron tomados de la herramienta gratuita DrawIO.
 
 ## Arquitectura
 La REST API está basada en un diseño MVC, con una organización específica de los directorios con acceso a los datos de la base de datos (/models; aunque esto es gestionado principalmente por las funcionalidades del módulo de Sequelice) y controladores (manejo de peticiones HTTP; /controllers).
@@ -20,17 +21,19 @@ La base de datos recide en Render, lo que facilita que otros usuarios puedan pro
 - Validación con Zod
 - Comunicación con Postgres DB con Sequelice
 - Documentación de end-points con Swagger
+- Despliegue en Render
+- ~~Realización de pruebas unitarias para todos los end-points con Jest y Supertest~~
 
 ## Instalación localmente
-Para correr la API localmente es necesario tener instalado el entorno NodeJS, clonar el presente repositorio:
+Para correr la API localmente es necesario tener instalado el entorno NodeJS, ingresar al directorio donde se desea clonar el repositorio y utilizar el Bash de Git:
 ```
 git clone https://github.com/Devv1507/trainee-backend-challenge.git
 ```
-Y correr el comando:
+Abrimos dicho directorio con nuestro IDE de preferencia y corremos el siguiente comando en la terminal (garantizando que estemos en la carpeta de origen del repositorio, e.g. your/pesonal/routes/trainee-backend-challenge):
 ```
 npm run dev
 ```
-Psdta: se requiere que el puerto 3000 no este ocupado o añadir una variable PORT al archivo de variables de ejecución .env. Este archivo se ha compartido de forma pública para gantizar la facilidad de uso de la API.
+Psdta: se requiere que el puerto 3000 no este ocupado o añadir una variable PORT al archivo de variables de ejecución .env. Este archivo se ha compartido de forma pública para gantizar la facilidad de uso de la API, pero será deshabilitado en un futuro.
 
 ## Funcionamiento
 La presente REST API permite la gestión de tareas a partir de funciones CRUD básicas para un usuario autenticado, además también permite la realización de CRUD para usuarios. Pese a que este aspecto de los usuarios no fue denotado como uno de los objetivos del reto, considero que es imperativo garantizar un mínimo CRUD para la gestión de cualquier elemento que se cree en la base de datos.
