@@ -50,15 +50,37 @@ Psdta: se requiere que el puerto 3000 no este ocupado o añadir una variable POR
 La presente REST API permite la gestión de tareas a partir de funciones CRUD básicas para un usuario autenticado, además también permite la realización de CRUD para usuarios. Pese a que este aspecto de los usuarios no fue denotado como uno de los objetivos del reto, considero que es imperativo garantizar un mínimo CRUD para la gestión de cualquier elemento que se cree en la base de datos.
 
 ### Funcionalidades
+### Credenciales
+- [x] Registrarse (POST). http://example.com/api/sign-up
+- [x] Loguearse (POST). http://example.com/api/login
+- [x] Cerrar sesión (GET). http://example.com/api/logout
+- [x] Refrescar token (POST). http://example.com/api/refresh-token
 
-- [x] Leer todas las tareas personales (GET). http://example.com/api/tasks/all
-- [x] Leer una tarea específica (GET). http://example.com/api/tasks/id=1
-- [x] Añadir una tarea (POST). http://example.com/api/tasks/add
-- [x] Actualizar una tarea (PUT). http://example.com/api/tasks/
-- [x] Borrar una tarea (DELETE). http://example.com/api/tasks/
+### CRUD de tareas
+- [x] Leer todas las tareas personales (GET). http://example.com/api/home/tasks/all
+- [x] Leer una tarea específica (GET). http://example.com/api/tasks/:taskN
+- [x] Añadir una tarea (POST). http://example.com/api/home/tasks/add
+- [x] Actualizar una tarea (PUT). http://example.com/api/home/tasks/:taskN
+- [x] Borrar una tarea (DELETE). http://example.com/api/home/tasks/:taskN
+
+Nota: taskN no es el id per se de la tarea pero puede funcionar como tal gracias a que es una lista ordenada de número enteros desde 1 para cada usuario. Es decir, la tarea 1 de un usuario no va a ser igual a la tarea 1 de otro usuario.
+
+### CRUD de usuarios
+- [x] Leer los datos de todos los usuarios (GET). http://example.com/api/home/all
+- [x] Leer los datos de una cuenta específica (GET). http://example.com/api/home/:id
+- [x] Actualizar información de un usuario (PUT). http://example.com/api/home/:id
+- [x] Eliminar a un usuario (DELETE). http://example.com/api/home/:id
+
+Nota: estas funcionalidades del CRUD de usuarios solo pueden ser accedidas logueandose con las credenciales de: 
+```
+{
+    "email": "localadmin@gmail.com
+    "password": "adminpassword"
+}
+```
 
 ### En PaaS Render
-Para visitar el funcionamiento en producción visitar: [taskmanager.onrender.com](www.taskmanager.onrender.com)
+Para visitar el funcionamiento en producción visitar: [https://taskmanager-api-tw7t.onrender.com/api/docs](https://taskmanager-api-tw7t.onrender.com/api/docs).
 
 ### En Postman
 Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link público compartido junto al video, pero también puede buscarse con el siguiente nombre en colecciones públicas de Postman: **API REST challenge public** [link](https://www.postman.com/aviation-technologist-97345174/workspace/api-rest-challenge-public/collection/33509131-cc551aa8-50bb-4a33-a346-8e727de7e752?action=share&creator=33509131). Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
