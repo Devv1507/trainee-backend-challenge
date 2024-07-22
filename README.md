@@ -22,7 +22,7 @@ La autenticación de usuarios se realiza por medio tokens de acceso y encriptaci
 Además, cada vez que un usuario se logea se guarda el token de refresco también en la base de datos para tener una forma de garantizar cuando un token de refresco es válido y garantizar un poco más de seguridad a la hora de retornar tokens de acceso.
 
 ## Más detalles
-Para más información respecto a que documentación utilicé, preguntas, dificultades u otras experiencias en el desarrollo de la API visitar el documento [Bitácora de Desarrolo / 'development_log'](delopment_log.md)
+Para más información respecto a que documentación utilizada, preguntas realizadas a IA, dificultades u otras experiencias en el desarrollo de la API visitar el documento [Bitácora de Desarrolo / 'development_log'](delopment_log.md)
 
 ## Tecnologías
 
