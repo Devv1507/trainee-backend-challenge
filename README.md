@@ -15,7 +15,7 @@ El flujo de datos de puede resumirse en el siguiente esquema:
 
 La base de datos recide en Render, lo que facilita que otros usuarios puedan probar este recurso sin necesidad a priori de tener un gestor de bases de datos local. Se utilizó el gestor de DBeaver para visualizar la base de datos y garantizar una correcta estructura de los datos.
 
-La autenticación de usuarios se realiza por medio tokens de acceso y encriptación básica de las contraseñas con bcryptjs. La autorización también está basada en la revisión del encabezado de 'Authorization' de la petición HTTP, que para el caso solo puede ser demostrada colocando el token de acceso manualmente. Para garantizar un flujo más flexible de esta autorización, y evitar que el usuario deba logearse cada 15 minutos, se añadió una lógica basada en tokens de refresco, la cuál se basa en el siguiente algoritmo:
+La autenticación de usuarios se realiza por medio tokens de acceso y encriptación básica de las contraseñas con bcryptjs. La autorización también está basada en la revisión del encabezado de 'Authorization' de la petición HTTP. Para garantizar un flujo más flexible de esta autorización, y evitar que el usuario deba logearse cada 15 minutos, se añadió una lógica basada en tokens de refresco, la cuál se basa en el siguiente algoritmo:
 
 ![Flujo de lógica de token de refresco](/media/api-refresh-token-logic.png)
 
@@ -49,6 +49,8 @@ Psdta: se requiere que el puerto 3000 no este ocupado o añadir una variable POR
 ## Funcionamiento
 La presente REST API permite la gestión de tareas a partir de funciones CRUD básicas para un usuario autenticado, además también permite la realización de CRUD para usuarios. Pese a que este aspecto de los usuarios no fue denotado como uno de los objetivos del reto, considero que es imperativo garantizar un mínimo CRUD para la gestión de cualquier elemento que se cree en la base de datos.
 
+Solo un usuario autenticado puede acceder a las rutas privadas del CRUD de tareas, a su vez, solo puede realizar cambios en sus datos privados gracias al uso de JWT tokens. 
+
 ### Funcionalidades
 ### Credenciales
 - [x] Registrarse (POST). http://example.com/api/sign-up
@@ -74,7 +76,7 @@ Nota: taskN no es el id per se de la tarea pero puede funcionar como tal gracias
 Nota: estas funcionalidades del CRUD de usuarios solo pueden ser accedidas logueandose con las credenciales de: 
 ```
 {
-    "email": "localadmin@gmail.com
+    "email": "localadmin@gmail.com",
     "password": "adminpassword"
 }
 ```
@@ -83,9 +85,9 @@ Nota: estas funcionalidades del CRUD de usuarios solo pueden ser accedidas logue
 Para visitar el funcionamiento en producción visitar: [https://taskmanager-api-tw7t.onrender.com/api/docs](https://taskmanager-api-tw7t.onrender.com/api/docs).
 
 ### En Postman
-Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link público compartido junto al video, pero también puede buscarse con el siguiente nombre en colecciones públicas de Postman: **API REST challenge public** [link](https://www.postman.com/aviation-technologist-97345174/workspace/api-rest-challenge-public/collection/33509131-cc551aa8-50bb-4a33-a346-8e727de7e752?action=share&creator=33509131). Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
+Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link público compartido junto al video. Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
 
-Notas: es necesario agregar manualmente el token de acceso para conseguir autorización a las rutas privadas (Bearer token). Esta tarea puede algo más fácil con la UI de Swagger.
+Notas: es necesario agregar manualmente el token de acceso para conseguir autorización a las rutas privadas (Bearer token). Esta tarea puede ser algo más fácil con la UI de Swagger.
 
 * Probando el end-point de registro de usuario --> POST /api/sign-up
 ![Sign Up](/media/signup_API.gif)
