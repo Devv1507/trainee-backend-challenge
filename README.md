@@ -83,7 +83,7 @@ Nota: estas funcionalidades del CRUD de usuarios solo pueden ser accedidas logue
 ```
 
 ### En PaaS Render
-Para visitar el funcionamiento en producción visitar: [https://taskmanager-api-tw7t.onrender.com/api/docs](https://taskmanager-api-tw7t.onrender.com/api/docs).
+Para visitar el funcionamiento en producción visitar: [https://taskmanager-api-tw7t.onrender.com/api/docs](https://taskmanager-api-tw7t.onrender.com/api/docs). La única diferencia respecto al método local es que este ambiente de producción requiere utilizar archivos .js compatibles con el compilador del navegador web, que es la razón por la que existe la carpeta /dist.
 
 ### En Postman
 Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link compartido junto al video. Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
