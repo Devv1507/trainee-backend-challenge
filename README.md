@@ -39,3 +39,4 @@ Para visitar el funcionamiento en producción visitar: [taskmanager.onrender.com
 
 ### En Postman
 
+![Sign Up](/media/signup_API.webm)
