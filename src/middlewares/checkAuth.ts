@@ -20,9 +20,11 @@ export const checkToken = (req: Request, res: Response, next: NextFunction) => {
         exclude: ['email','refreshToken','password'],
       }
     });
-    console.log(userFound?.dataValues);
     if (!userFound) {
       return res.status(403).json({ message: 'Token inválido o expirado' });
+    }
+    if (userFound.id === process.env.ADMIN_ID) {
+      res.locals.isAdmin = true;
     }
     // Continue to the next middleware or route handler if authorized
     res.locals.userId = sub;

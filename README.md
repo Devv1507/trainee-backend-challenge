@@ -61,7 +61,7 @@ La presente REST API permite la gestión de tareas a partir de funciones CRUD b�
 Para visitar el funcionamiento en producción visitar: [taskmanager.onrender.com](www.taskmanager.onrender.com)
 
 ### En Postman
-Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el siguiente link: [link](). Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
+Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link público compartido junto al video, pero también puede buscarse con el siguiente nombre en colecciones públicas de Postman: **API REST challenge public**. Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
 
 Notas: es necesario agregar manualmente el token de acceso para conseguir autorización a las rutas privadas (Bearer token). Esta tarea puede algo más fácil con la UI de Swagger.
 

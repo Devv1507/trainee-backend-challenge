@@ -7,7 +7,8 @@ import User from '../database/models/user';
 // Get user by ID
 export const getById: Handler = async (req, res) => {
   try {
-    const id = res.locals.id;
+    if (!res.locals.isAdmin) return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
+    const { id } = req.params;
     const user = await User.findByPk(id, {
       attributes: {
         exclude: ['password'],
@@ -25,6 +26,7 @@ export const getById: Handler = async (req, res) => {
 // Get all accounts
 export const getAll: Handler = async (req, res) => {
   try {
+    if (!res.locals.isAdmin) return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
     const users = await User.findAll();
     res.json({ success: true, message: users });
   } catch (error: any) {
@@ -34,6 +36,7 @@ export const getAll: Handler = async (req, res) => {
 // Delete an account
 export const deleteUser: Handler = async (req, res) => {
   try {
+    if (!res.locals.isAdmin) return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
     const { id } = req.params;
     const target = await User.findByPk(id);
     if (target === null) {
@@ -49,6 +52,7 @@ export const deleteUser: Handler = async (req, res) => {
 // Update an account
 export const updateUser: Handler = async (req, res) => {
   try {
+    if (!res.locals.isAdmin) return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
     const { id } = req.params;
     const { body } = req;
     const target = await User.findByPk(id);
