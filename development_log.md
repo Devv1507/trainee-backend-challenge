@@ -40,8 +40,7 @@ declare name: string; // o !name
 ```
 
 ## Arquitectura MVC
-Debido a la naturaleza unopinonated del framework Express, por lo que he visto es natural que muchos proyectos de desarrollo web utilicen una organización bastante personalizada. A pesar de que sé que existen arquitecturas más limpias (como la arquitectura de puertos-adaptadores de Alistair Cockburn), considero que MVC sigue siendo uno d elos estándares más populares para el desarrollo web y especialmente para un proyecto pequeño como el presente.
-
+Debido a la naturaleza unopinonated del framework Express, por lo que he visto es natural que muchos proyectos de desarrollo web utilicen una organización bastante personalizada. A pesar de que sé que existen arquitecturas más limpias (como la arquitectura de puertos-adaptadores de Alistair Cockburn), considero que MVC sigue siendo uno de los estándares más populares para el desarrollo web y especialmente para un proyecto pequeño como el presente.
 
 Como podemos ver en la imagen, lo que intentamos con un diseño MVC no es solo referente a la organización de las carpetas, sino también a la lógica y funcionalidad general. En este diseño se busca separar la comunicación entre la base de datos y el cliente (métodos HTTP) a partir de las capas de enrutadores, controladores y servicios. Empezando por el lado del cliente, los enrutadores son archivos en donde se han definido los end-points y middlewares necesarios para cada ruta particular (e.g. la ruta /api/home/tasks es privada y por ello en los enrutadores se importan middlewares para validar la autorización a estos recursos), en donde reciben las peticiones del cliente a tráves del Router de Express. 
 
