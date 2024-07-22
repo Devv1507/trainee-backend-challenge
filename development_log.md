@@ -1,5 +1,7 @@
 # Development Log
-Esta es una bitácora con detalles de desarrollo.
+Esta es una bitácora con detalles de desarrollo. 
+
+Resumen: me base principalmente en documentación y proyectos de guías/creadores de contenido de DEV, LogRocket, FullStackFoundation, Medium y tutoriales de Youtube, especialmente para aprender la configuración necesaria para desarrollar la API en Typescript. Utilicé un diseño MVC algo incompleto (sin capa de servicios). Tuve dificultades principalmente en problemas de errores de compilación basado en Typescript (incompatibilidad de tipos), en aprender  a usar el módulo sequelize-typescript, en aprender como describir los endpoints con base en Swagger JSDoc y en definir prubeas unitarias. 
 
 ## Inicio de la app Express
 La idea general del servidor básico de Express conectado a PostgreSQL la tomé de mi proyecto personal (sacml-project)(https://github.com/Devv1507/SACML_project), en donde realicé una aproximación similar basado en el stack PERN.
@@ -23,6 +25,17 @@ Usando la estrategia base de empezar el archivo de configuración 'tsconfig.json
 ```
 npx tsc --init
 ```
+## Lógica de negocio
+La mayoría de la lógica del negocio recae en los controladores: toman las peticiones HTTP; reasignan a constantes atributos de los datos de entrada; realizan validaciones con los modelos definidos que básicamente son instancias de Sequelize, y por tanto, permiten utilizar métodos que facilitan tareas generales (como findOne, findByPk, create, update, destroy). Finalmente, una vez se alcanza el final de la estructura de control se retorna la respuesta HTTP correspondiente, sea un exito (200, 201) o rechazo (400, 401, 403, 404).
+
+Para la lógica de autorización basada en tokens de acceso/refreso me base en guías bastante completas como las de [FullStackFoundation](https://www.fullstackfoundations.com/blog/passport-jwt) y [Dave Gray](https://www.youtube.com/watch?v=f2EqECiTBL8&t=15338s).
+
+## Arquitectura MVC
+Debido a la naturaleza unopinonated del framework Express, por lo que he visto es natural que muchos proyectos de desarrollo web utilicen una organización bastante personalizadas. A su vez, el diseño de Modelo-Vista-Controlador (MVC) es muy popular en el área de desarrollo de aplicaciones web. Y en parte, también por su facilidad de estructura:
+
+Como podemos ver en la imagen, lo que intentamos con un diseño MVC no es solo referente a la organización de las carpetas, sino también a la lógica y funcionalidad general. En este diseño se busca separar la comunicación entre la base de datos y el cliente (métodos HTTP) a partir de las capas de enrutadores, controladores y servicios. Empezando por el lado del cliente, los enrutadores son archivos en donde se han definido los end-points y middlewares necesarios para cada ruta particular (e.g. la ruta /api/home/tasks es privada y por ello en los enrutadores se importan middlewares para validar la autorización a estos recursos), en donde reciben las peticiones del cliente a tráves del Router de Express. 
+
+Estas rutas llaman a funciones en donde que manejan todas las peticiones/respuestas HTTP, es decir, controladores. Estos controladores realizan operaciones que normalmente se reciben a tráves de una capa de servicios o métodos en donde se despliega la lógica del negocio y la comunicación más cercana con la DB. En este caso, se optó por un modelo MVC más simple por la simplicidad del reto. Es por ello que los controladores definidos llaman directamente a la capa de acceso a los datos (los modelos, como user.ts o task.ts) y emplean funcionalidades de Sequelize para comprobar, actualizar o destruir datos de la DB; añadir la lógica de CRUD y adjuntar respuestas HTTP al cliente con base en estructuras de control.
 
 ## Módulo Sequelize
 El uso de esté módulo se atribuye principalmente a la familiaridad que ya tenía, en parte me gusta por su flexivilidad y automatización cuando se utiliza con su CLI (sequelize-cli). Sin embargo, debido a la necesidad de que esta API esté basada en Typescript, se presentaron varios problemas a la hora de utilizar las estrategias que antes había encontrado cómodas. En un principio intenté una aproximación basada en los cómandos base de sequelize-cli para generar plantillas para archivos de modelos, migración y configuración a la base de datos:
@@ -43,13 +56,6 @@ La particularidad es que este CLI genera los archivos en formato CommunJS, lo qu
 })
 declare name: string; // o !name
 ```
-
-## Arquitectura MVC
-Debido a la naturaleza unopinonated del framework Express, por lo que he visto es natural que muchos proyectos de desarrollo web utilicen una organización bastante personalizada. A pesar de que sé que existen arquitecturas más limpias (como la arquitectura de puertos-adaptadores de Alistair Cockburn), considero que MVC sigue siendo uno de los estándares más populares para el desarrollo web y especialmente para un proyecto pequeño como el presente.
-
-Como podemos ver en la imagen, lo que intentamos con un diseño MVC no es solo referente a la organización de las carpetas, sino también a la lógica y funcionalidad general. En este diseño se busca separar la comunicación entre la base de datos y el cliente (métodos HTTP) a partir de las capas de enrutadores, controladores y servicios. Empezando por el lado del cliente, los enrutadores son archivos en donde se han definido los end-points y middlewares necesarios para cada ruta particular (e.g. la ruta /api/home/tasks es privada y por ello en los enrutadores se importan middlewares para validar la autorización a estos recursos), en donde reciben las peticiones del cliente a tráves del Router de Express. 
-
-Estas rutas llaman a funciones en donde que manejan todas las peticiones/respuestas HTTP, es decir, controladores. Estos controladores realizan operaciones que normalmente se reciben a tráves de una capa de servicios o métodos en donde se despliega la lógica del negocio y la comunicación más cercana con la DB. En este caso, se optó por un modelo MVC más simple por la simplicidad del reto. Es por ello que los controladores definidos llaman directamente a la capa de acceso a los datos (los modelos, como user.ts o task.ts) y emplean funcionalidades de Sequelize para comprobar, actualizar o destruir datos de la DB; añadir la lógica de CRUD y adjuntar respuestas HTTP al cliente con base en estructuras de control.
 
 ## Documentación
 Como no había utilizado antes el módulo de Swagger o aplicado plenamente comentarios tipo JSDoc tuve que recorrer una pequeña curva de aprendizaje. Por suerte, la documentación de [Swagger](https://swagger.io/docs/specification/describing-responses/), respecto a como describir respuestas, cuerpos de peticiones, modelos de datos, parámetros, etc. es bastante completa. Lo que facilitó este proceso.
@@ -320,3 +326,5 @@ Key Changes:
 
 This ensures that the correct User instance is being passed and the password is correctly hashed before the user is created.
 ```
+## Testing: Pruebas unitarias
+A pesar de que he tenido que realizar algunas pruebas unitarias en proyectos académicos, la realidad es que no tengo mucha familiaridad con las mismas, en especial cuando se requiere tener una versión en memoria de la base de datos como este caso. En un principio esperaba realizar estos test con Jest y Supertest, pero decidí dejar este aspecto incompleto porque noté que la curva de aprendizaje que necesitaba superar no me permitiría entregar a tiempo.

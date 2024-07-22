@@ -22,7 +22,7 @@ La autenticación de usuarios se realiza por medio tokens de acceso y encriptaci
 Además, cada vez que un usuario se logea se guarda el token de refresco también en la base de datos para tener una forma de garantizar cuando un token de refresco es válido y garantizar un poco más de seguridad a la hora de retornar tokens de acceso.
 
 ## Más detalles
-Para más información respecto a que documentación utilizada, preguntas realizadas a IA, dificultades u otras experiencias en el desarrollo de la API visitar el documento [Bitácora de Desarrolo / 'development_log'](delopment_log.md)
+Para más información respecto a que documentación utilizada, preguntas realizadas a IA, dificultades u otras experiencias en el desarrollo de la API visitar el documento [Bitácora de Desarrolo / 'development_log'](https://github.com/Devv1507/trainee-backend-challenge/blob/main/development_log.md)
 
 ## Tecnologías
 
@@ -61,7 +61,7 @@ La presente REST API permite la gestión de tareas a partir de funciones CRUD b�
 Para visitar el funcionamiento en producción visitar: [taskmanager.onrender.com](www.taskmanager.onrender.com)
 
 ### En Postman
-A pesar de que SwaggerUI y ThunderClient realizan funcionalidades muy similares, que suelo usar con más frecuencia, se realizó una colección con todas las rutas de la API para ser compartido con facilidad ().
+Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el siguiente link: [link](). Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
 
 * Probando el end-point de registro de usuario /api/sign-up
 ![Sign Up](/media/signup_API.gif)
