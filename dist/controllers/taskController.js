@@ -43,21 +43,21 @@ const getUserTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.getUserTasks = getUserTasks;
 /**
- * Get a single task for the authenticated user by task ID.
+ * Get a single task for the authenticated user by task counter.
  *
  * @function getUserSingleTask
  * @param {Object} req - Express request object.
  * @param {Object} req.params - Request parameters.
- * @param {string} req.params.id - Task ID.
+ * @param {string} req.params.taskN - Number of the task of a specific user. Starts at 1 and increment by one.
  * @param {Object} res - Express response object.
  * @returns {void}
  * @throws {NotFoundError} If the task is not found.
- * @description Retrieves a single task for the authenticated user by task ID.
+ * @description Retrieves a single task for the authenticated user by task counter.
  */
 const getUserSingleTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = res.locals.userId;
-        const taskN = req.params.id;
+        const taskN = req.params.taskN;
         const userTask = yield task_1.default.findOne({ where: { userId: id, taskN } });
         if (userTask === null) {
             return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
@@ -120,7 +120,7 @@ exports.addTask = addTask;
  * @function updateTask
  * @param {Object} req - Express request object.
  * @param {Object} req.params - Request parameters.
- * @param {string} req.params.id - Task Number.
+ * @param {string} req.params.taskN - Number of the task of a specific user. Starts at 1 and increment by one.
  * @param {Object} req.body - Request body.
  * @param {string} [req.body.title] - New task title
  * @param {string} [req.body.description] - New task description.
@@ -135,7 +135,7 @@ exports.addTask = addTask;
  */
 const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const taskN = req.params.id;
+        const taskN = req.params.taskN;
         const { body } = req;
         const targeTask = yield task_1.default.findOne({ where: { userId: res.locals.userId, taskN } });
         if (targeTask === null) {
@@ -143,7 +143,7 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         else {
             yield targeTask.update(body);
-            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente', });
+            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente', updateTask: targeTask });
         }
     }
     catch (error) {
@@ -157,7 +157,7 @@ exports.updateTask = updateTask;
  * @function deleteTask
  * @param {Object} req - Express request object.
  * @param {Object} req.params - Request parameters.
- * @param {string} req.params.id - Task ID.
+ * @param {string} req.params.taskN - Number of the task of a specific user. Starts at 1 and increment by one.
  * @param {Object} res - Express response object.
  * @returns {void}
  * @description Deletes an existing task for the authenticated user by task number.
@@ -167,7 +167,7 @@ exports.updateTask = updateTask;
 const deleteTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = res.locals.userId;
-        const taskN = req.params.id;
+        const taskN = req.params.taskN;
         const targeTask = yield task_1.default.findOne({ where: { userId: id, taskN } });
         if (targeTask === null) {
             return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });

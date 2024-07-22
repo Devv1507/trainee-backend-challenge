@@ -22,7 +22,7 @@ const checkAuth_1 = require("../../middlewares/checkAuth");
  *     type: string
  *   taskN:
  *    in: path
- *    name: id
+ *    name: taskN
  *    description: Integer of specific task of a user
  *    required: true
  *    schema:
