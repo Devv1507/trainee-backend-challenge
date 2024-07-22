@@ -86,9 +86,9 @@ Nota: estas funcionalidades del CRUD de usuarios solo pueden ser accedidas logue
 Para visitar el funcionamiento en producción visitar: [https://taskmanager-api-tw7t.onrender.com/api/docs](https://taskmanager-api-tw7t.onrender.com/api/docs). La única diferencia respecto al método local es que este ambiente de producción requiere utilizar archivos .js compatibles con el compilador del navegador web, que es la razón por la que existe la carpeta /dist.
 
 ### En Postman
-Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link compartido junto al video. Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
+Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link compartido junto al video. En el presente repositorio también se añadió dicha colección en el archivo **API REST TaskManagement.postman_collection.json**, el cuál solo debe ser importado en Postman para tener una copia de la colección. Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
 
-Notas: es necesario agregar manualmente el token de acceso para conseguir autorización a las rutas privadas (Bearer token). Esta tarea puede ser algo más fácil con la UI de Swagger.
+Nota: es necesario agregar manualmente el token de acceso para conseguir autorización a las rutas privadas (Bearer token). Esta tarea puede ser algo más fácil con la UI de Swagger.
 
 * Probando el end-point de registro de usuario --> POST /api/sign-up
 ![Sign Up](/media/signup_API.gif)
