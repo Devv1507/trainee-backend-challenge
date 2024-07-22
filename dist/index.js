@@ -16,16 +16,20 @@ const app_1 = __importDefault(require("./app"));
 const connection_1 = __importDefault(require("./database/connection"));
 const PORT = process.env.PORT || 3000;
 /**
- * Asyncronic function to test for errors during connection
- * @async
+ * Main
+ *
+ * @function main
+ * @description Asynchronous function to test for errors during connection to the database.
+ * If the connection is successful, it synchronizes the Sequelize models and starts the server on the specified port.
+ * @throws {Error} If there is an error during the database connection or server initialization.
  */
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             yield connection_1.default.authenticate();
-            console.log('✔️  Connection has been established successfully'); //###################
-            // Initializing the Sequelize-Postgres connection
+            console.log('✔️  Connection has been established successfully');
             yield connection_1.default.sync({ force: false });
+            console.log('✔️  Database synchronized successfully');
             // Configurated to listen on defined port (local or production)
             app_1.default.listen(PORT, () => {
                 console.log(`Server is running on port ${PORT}`);
@@ -33,7 +37,8 @@ function main() {
             console.log(`📜 Version 1 Docs are available on http://localhost:${PORT}/api/docs`);
         }
         catch (error) {
-            console.log(error);
+            console.error('❌  Error during database authentication:', error);
+            process.exit(1); // Exit the process with an error code
         }
     });
 }

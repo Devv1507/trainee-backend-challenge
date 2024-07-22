@@ -16,10 +16,25 @@ exports.updateUser = exports.deleteUser = exports.getAll = exports.getById = voi
 const user_1 = __importDefault(require("../database/models/user"));
 //const { issueJWT } = require('../libs/createToken');
 // ************************ Controller functions ************************
-// Get user by ID
+/**
+ * Get user by ID.
+ *
+ * @function getById
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - User ID.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Retrieves a user by their ID, excluding the password field.
+ * @throws {ForbiddenError} If the user does not have admin privileges.
+ * @throws {NotFoundError} If the user is not found.
+ * @throws {Error} If there is a server error.
+ */
 const getById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const id = res.locals.id;
+        if (!res.locals.isAdmin)
+            return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
+        const { id } = req.params;
         const user = yield user_1.default.findByPk(id, {
             attributes: {
                 exclude: ['password'],
@@ -37,9 +52,21 @@ const getById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getById = getById;
-// Get all accounts
+/**
+ * Get all accounts.
+ *
+ * @function getAll
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Retrieves all user accounts.
+ * @throws {ForbiddenError} If the user does not have admin privileges.
+ * @throws {Error} If there is a server error.
+ */
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (!res.locals.isAdmin)
+            return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
         const users = yield user_1.default.findAll();
         res.json({ success: true, message: users });
     }
@@ -48,9 +75,24 @@ const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getAll = getAll;
-// Delete an account
+/**
+ * Delete an account.
+ *
+ * @function deleteUser
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - User ID.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Deletes a user account by their ID.
+ * @throws {ForbiddenError} If the user does not have admin privileges.
+ * @throws {NotFoundError} If the user is not found.
+ * @throws {Error} If there is a server error.
+ */
 const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (!res.locals.isAdmin)
+            return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
         const { id } = req.params;
         const target = yield user_1.default.findByPk(id);
         if (target === null) {
@@ -66,9 +108,24 @@ const deleteUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteUser = deleteUser;
-// Update an account
+/**
+ * Update an account.
+ *
+ * @function updateUser
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - User ID.
+ * @param {Object} req.body - Request body.
+ * @returns {void}
+ * @description Updates a user account by their ID.
+ * @throws {ForbiddenError} If the user does not have admin privileges.
+ * @throws {NotFoundError} If the user is not found.
+ * @throws {Error} If there is a server error.
+ */
 const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        if (!res.locals.isAdmin)
+            return res.status(403).json({ success: false, message: 'No tienes permisos para realizar esta acción' });
         const { id } = req.params;
         const { body } = req;
         const target = yield user_1.default.findByPk(id);
@@ -76,8 +133,8 @@ const updateUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(404).json({ success: false, message: 'La cuenta no ha sido encontrada' });
         }
         else {
-            const updated = yield target.update(body);
-            res.status(200).json(updated);
+            yield target.update(body);
+            res.status(200).json({ success: false, message: 'Se han aplicado las actualizaciones', updateUser: target });
         }
     }
     catch (error) {

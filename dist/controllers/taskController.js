@@ -12,8 +12,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteTask = exports.updateTask = exports.addTask = exports.getUserTasks = void 0;
+exports.deleteTask = exports.updateTask = exports.addTask = exports.getUserSingleTask = exports.getUserTasks = void 0;
 const task_1 = __importDefault(require("../database/models/task"));
+/**
+ * Get all tasks for the authenticated user.
+ *
+ * @function getUserTasks
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Retrieves all tasks for the authenticated user, if not errors.
+ * @throws {NotFoundError} If no task for the user is found.
+ * @throws {Error} If there is a server error.
+ */
 const getUserTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = res.locals.userId;
@@ -31,6 +42,48 @@ const getUserTasks = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
 });
 exports.getUserTasks = getUserTasks;
+/**
+ * Get a single task for the authenticated user by task ID.
+ *
+ * @function getUserSingleTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - Task ID.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @throws {NotFoundError} If the task is not found.
+ * @description Retrieves a single task for the authenticated user by task ID.
+ */
+const getUserSingleTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const id = res.locals.userId;
+        const taskN = req.params.id;
+        const userTask = yield task_1.default.findOne({ where: { userId: id, taskN } });
+        if (userTask === null) {
+            return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
+        }
+        res.status(200).json({ success: true, message: userTask });
+    }
+    catch (error) {
+        res.status(500).send({ success: false, message: error.message });
+    }
+});
+exports.getUserSingleTask = getUserSingleTask;
+/**
+ * Add a new task for the authenticated user.
+ *
+ * @function addTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Request body.
+ * @param {string} req.body.title - Task title.
+ * @param {string} req.body.description - Task description.
+ * @param {string} req.body.limitDate - Task limit date.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Creates a new task for the authenticated user. Return validation errors if found.
+ * @throws {ValidationError} If the request body is invalid.
+ * @throws {Error} If there is a server error.
+ */
 const addTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = res.locals.userId;
     const { body } = req;
@@ -52,8 +105,8 @@ const addTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
     try {
         // Save the task in DB
-        yield task_1.default.create(Object.assign(Object.assign({}, body), { userId: id }));
-        res.status(201).json({ success: true, message: 'Se ha añadido la tarea satisfactoriamente' });
+        const newTask = yield task_1.default.create(Object.assign(Object.assign({}, body), { userId: id }));
+        res.status(201).json({ success: true, message: 'Se ha añadido la tarea satisfactoriamente', addedTask: newTask });
     }
     catch (error) {
         console.log(error);
@@ -61,6 +114,25 @@ const addTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.addTask = addTask;
+/**
+ * Update an existing task for the authenticated user by task ID.
+ *
+ * @function updateTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - Task Number.
+ * @param {Object} req.body - Request body.
+ * @param {string} [req.body.title] - New task title
+ * @param {string} [req.body.description] - New task description.
+ * @param {string} [req.body.limitDate] - New task limit date.
+ * @param {string} [req.body.status] - New task status.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Updates an existing task for the authenticated user by task number.
+ * @throws {NotFoundError} If the user is not found.
+ * @throws {ValidationError} If the request body is invalid.
+ * @throws {Error} If there is a server error.
+ */
 const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const taskN = req.params.id;
@@ -71,7 +143,7 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         else {
             yield targeTask.update(body);
-            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente' });
+            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente', });
         }
     }
     catch (error) {
@@ -79,6 +151,19 @@ const updateTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.updateTask = updateTask;
+/**
+ * Delete an existing task for the authenticated user by task ID.
+ *
+ * @function deleteTask
+ * @param {Object} req - Express request object.
+ * @param {Object} req.params - Request parameters.
+ * @param {string} req.params.id - Task ID.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Deletes an existing task for the authenticated user by task number.
+ * @throws {NotFoundError} If the target task is not found.
+ * @throws {Error} If there is a server error.
+ */
 const deleteTask = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = res.locals.userId;

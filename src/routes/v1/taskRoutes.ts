@@ -29,6 +29,8 @@ import { taskSchema } from '../../schemas/taskSchemas';
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
+ *    404:
+ *     $ref: '#/components/responses/NotFound'
  *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
@@ -109,7 +111,7 @@ router.post('/add', validateRequest(taskSchema), checkToken, addTask);
  *    content:
  *     application/json:
  *      schema:
- *       $ref: '#/components/schemas/TaskRequest'
+ *       $ref: '#/components/schemas/UpdateTaskRequest'
  *   responses:
  *    200:
  *     description: Object with the updated task

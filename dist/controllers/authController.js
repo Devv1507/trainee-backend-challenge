@@ -18,15 +18,22 @@ const user_1 = __importDefault(require("../database/models/user"));
 const createToken_1 = require("../utils/createToken");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 // ************************ Controller functions ************************
-// ************************ Sign Up
 /**
- * Retrieve request input data to create a new user
- * @async
- * @param name - User's name
- * @param email - User's email
- * @param password - User's password
- * @param rePassword - User's password confirmation
- * @response {object} - User's data
+ * Sign Up
+ *
+ * @function signUp
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Request body.
+ * @param {string} req.body.name - User's name.
+ * @param {string} req.body.email - User's email.
+ * @param {string} req.body.password - User's password.
+ * @param {string} req.body.rePassword - User's password confirmation.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Creates a new user account with the provided details.
+ * @throws {ConflictError} If the email is already registered.
+ * @throws {ValidationError} If the input data is invalid.
+ * @throws {Error} If there is a server error.
  */
 const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -78,12 +85,19 @@ const signUp = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.signUp = signUp;
-// ************************ Log In 
 /**
- * Authenticate user password based on hashed password and input password, then push a JWT token to cookie
- * @async
- * @param email - User's email
- * @param password - User's password
+ * Log In
+ *
+ * @function logIn
+ * @param {Object} req - Express request object.
+ * @param {Object} req.body - Request body.
+ * @param {string} req.body.email - User's email.
+ * @param {string} req.body.password - User's password.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Authenticates a user and issues JWT tokens.
+ * @throws {UnauthorizedError} If the email or password is incorrect.
+ * @throws {Error} If there is a server error.
  */
 const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -122,11 +136,15 @@ const logIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.logIn = logIn;
-// ************************ Log Out
 /**
- * Clear the refresh token cookie to log out the user
- * @async
- * @param res - Request object
+ * Log Out
+ *
+ * @function logOut
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Logs out the user by clearing the refresh token cookie.
+ * @throws {Error} If there is a server error.
  */
 const logOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = req.cookies.refreshToken;
@@ -144,7 +162,18 @@ const logOut = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.sendStatus(204);
 });
 exports.logOut = logOut;
-// ************************ Refresh Token logic
+/**
+ * Refresh Token logic
+ *
+ * @function handleRefreshToken
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ * @returns {void}
+ * @description Handles the refresh token logic, issuing a new access token if valid.
+ * @throws {UnauthorizedError} If the refresh token is missing or invalid.
+ * @throws {ForbiddenError} If the user is not authorized.
+ * @throws {Error} If there is a server error.
+ */
 const handleRefreshToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { refreshToken } = req.cookies;
     if (!refreshToken)

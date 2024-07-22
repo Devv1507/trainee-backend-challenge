@@ -2,6 +2,16 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateRequest = void 0;
 const zod_1 = require("zod");
+/**
+ * Validate Request
+ *
+ * @function validateRequest
+ * @param {ZodSchema} schema - Zod schema to validate the request body.
+ * @returns {Function} - Middleware function to validate the request body against the provided schema.
+ * @description Middleware function that validates the request body using a Zod schema.
+ * @throws {ValidationError} If the request body is invalid.
+ * @throws {Error} If there is a server error.
+ */
 const validateRequest = (schema) => (req, res, next) => {
     try {
         schema.parse(req.body);

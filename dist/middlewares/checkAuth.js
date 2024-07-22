@@ -15,7 +15,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.checkToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const user_1 = __importDefault(require("../database/models/user"));
-// Define custom middleware function to handle unauthorized requests
+/**
+ * Check Token
+ *
+ * @function checkToken
+ * @param {Object} req - Express request object.
+ * @param {Object} req.headers - Request headers.
+ * @param {string} req.headers.authorization - Authorization header containing the JWT.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {void}
+ * @description Middleware function that verifies the JWT and authorizes the user.
+ * @throws {UnauthorizedError} If the authorization header is missing or the token is invalid.
+ * @throws {ForbiddenError} If the token is invalid or expired.
+ * @throws {Error} If there is a server error.
+ */
 const checkToken = (req, res, next) => {
     const authHeader = req.headers.authorization;
     if (!authHeader) {
@@ -33,9 +47,11 @@ const checkToken = (req, res, next) => {
                 exclude: ['email', 'refreshToken', 'password'],
             }
         });
-        console.log(userFound === null || userFound === void 0 ? void 0 : userFound.dataValues);
         if (!userFound) {
             return res.status(403).json({ message: 'Token inválido o expirado' });
+        }
+        if (userFound.id === process.env.ADMIN_ID) {
+            res.locals.isAdmin = true;
         }
         // Continue to the next middleware or route handler if authorized
         res.locals.userId = sub;

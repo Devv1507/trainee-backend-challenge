@@ -1,5 +1,6 @@
 import express, { Express} from 'express';
 import dotenv from 'dotenv';
+dotenv.config();
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import swaggerJSDoc from 'swagger-jsdoc';
@@ -8,7 +9,6 @@ import { options } from './swaggerOptions';
 
 // ************************ Settings ************************
 const app: Express = express();
-dotenv.config();
 
 // ************************ Middlewares ************************
 // To use body parser functionality to read and parse JSON in req.body
@@ -22,6 +22,7 @@ app.use(cors(
     }
 ));
 // To allow JSDoc validation
+
 app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerJSDoc(options)));
 
 // ************************ Routes ************************

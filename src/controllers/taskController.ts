@@ -18,7 +18,7 @@ export const getUserTasks: Handler = async (req, res) => {
         const id = res.locals.userId; 
         const userTasks = await Task.findAll({where: { userId: id }});
         if (userTasks.length === 0) {
-            res.status(201).json({ success: true, message: 'Usted no tiene ninguna tarea pendiente' });
+            res.status(404).json({ success: false, message: 'Usted no tiene ninguna tarea pendiente' });
         } else {
             res.status(200).json({ success: true, message: userTasks });
         }
@@ -130,7 +130,7 @@ export const updateTask: Handler = async (req, res) => {
             }
         else {
             await targeTask.update(body);
-            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente', updatedTask: targeTask });
+            res.json({ success: true, message: 'La tarea ha sido actualizada satisfactoriamente',  });
         }
       } catch (error:any) {
         res.status(500).send({ success: false, message: error.message });

@@ -5,7 +5,7 @@ const router = (0, express_1.Router)();
 // ************************ Controllers & Middlewares ************************
 const authController_1 = require("../../controllers/authController");
 const schemasHandler_1 = require("../../middlewares/schemasHandler");
-const authSchemas_1 = require("../../validators/schemas/authSchemas");
+const authSchemas_1 = require("../../schemas/authSchemas");
 const checkAuth_1 = require("../../middlewares/checkAuth");
 // ************************ Public Routes ************************
 /**
@@ -106,7 +106,7 @@ const checkAuth_1 = require("../../middlewares/checkAuth");
  *         errors:
  *          type: array
  *          example: ['Por favor añada un nombre para la cuenta', 'Por favor añada un email', 'Por favor añada una contraseña', 'Las contraseñas no coinciden, intente de nuevo']
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/sign-up', (0, schemasHandler_1.validateRequest)(authSchemas_1.registerSchema), authController_1.signUp);
@@ -149,7 +149,7 @@ router.post('/sign-up', (0, schemasHandler_1.validateRequest)(authSchemas_1.regi
  *        errors:
  *         type: array
  *         example: ['Email no encontrado. Por favor, intente de nuevo', 'Constraseña incorrecta']
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/login', (0, schemasHandler_1.validateRequest)(authSchemas_1.logInSchema), authController_1.logIn);
@@ -165,7 +165,7 @@ router.post('/login', (0, schemasHandler_1.validateRequest)(authSchemas_1.logInS
  *   responses:
  *    204:
  *     description: User logged out successfully
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/logout', checkAuth_1.checkToken, authController_1.logOut);
@@ -189,7 +189,7 @@ router.post('/logout', checkAuth_1.checkToken, authController_1.logOut);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
+ *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/refresh-token', authController_1.handleRefreshToken);

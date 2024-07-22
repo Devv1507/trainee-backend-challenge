@@ -21,13 +21,15 @@ const checkAuth_1 = require("../../middlewares/checkAuth");
  *     content:
  *      application/json:
  *       schema:
- *        $ref: '#/components/schemas/User'
+ *        type: array
+ *        items:
+ *         $ref: '#/components/schemas/User'
  *    401:
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/all', checkAuth_1.checkToken, userController_1.getAll);
 // Get my user - any
@@ -52,8 +54,8 @@ router.get('/all', checkAuth_1.checkToken, userController_1.getAll);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.get('/:id', checkAuth_1.checkToken, userController_1.getById);
 // Delete user - admin
@@ -74,8 +76,8 @@ router.get('/:id', checkAuth_1.checkToken, userController_1.getById);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.delete('/:id', checkAuth_1.checkToken, userController_1.deleteUser);
 // Update user information - any
@@ -106,8 +108,8 @@ router.delete('/:id', checkAuth_1.checkToken, userController_1.deleteUser);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.put('/update/:id', checkAuth_1.checkToken, userController_1.updateUser);
 exports.default = router;

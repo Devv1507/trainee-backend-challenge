@@ -5,7 +5,7 @@ const router = (0, express_1.Router)();
 const taskController_1 = require("../../controllers/taskController");
 const checkAuth_1 = require("../../middlewares/checkAuth");
 const schemasHandler_1 = require("../../middlewares/schemasHandler");
-const taskSchemas_1 = require("../../validators/schemas/taskSchemas");
+const taskSchemas_1 = require("../../schemas/taskSchemas");
 // ************************ Private Routes ************************
 // Get all user tasks
 /**
@@ -22,15 +22,45 @@ const taskSchemas_1 = require("../../validators/schemas/taskSchemas");
  *     content:
  *      application/json:
  *       schema:
+ *        type: array
+ *        items:
+ *         $ref: '#/components/schemas/Task'
+ *    401:
+ *     $ref: '#/components/responses/UnauthorizedError'
+ *    403:
+ *     $ref: '#/components/responses/Forbidden'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
+ */
+router.get('/all', checkAuth_1.checkToken, taskController_1.getUserTasks);
+// Get a single task
+/**
+ * @swagger
+ * /api/home/tasks/{id}:
+ *  get:
+ *   tags: [Task]
+ *   summary: Get a single task of a user
+ *   parameters:
+ *    - $ref: '#/components/parameters/taskN'
+ *   security:
+ *    - bearerAuth: []
+ *   responses:
+ *    200:
+ *     description: Object with the task
+ *     content:
+ *      application/json:
+ *       schema:
  *        $ref: '#/components/schemas/Task'
  *    401:
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    404:
+ *     $ref: '#/components/responses/NotFound'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
-router.get('/all', checkAuth_1.checkToken, taskController_1.getUserTasks);
+router.get('/:id', checkAuth_1.checkToken, taskController_1.getUserSingleTask);
 // Add a task
 /**
  * @swagger
@@ -57,8 +87,8 @@ router.get('/all', checkAuth_1.checkToken, taskController_1.getUserTasks);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.post('/add', (0, schemasHandler_1.validateRequest)(taskSchemas_1.taskSchema), checkAuth_1.checkToken, taskController_1.addTask);
 // Update a task
@@ -89,8 +119,8 @@ router.post('/add', (0, schemasHandler_1.validateRequest)(taskSchemas_1.taskSche
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.put('/:id', checkAuth_1.checkToken, taskController_1.updateTask);
 // Delete a task
@@ -115,8 +145,8 @@ router.put('/:id', checkAuth_1.checkToken, taskController_1.updateTask);
  *     $ref: '#/components/responses/UnauthorizedError'
  *    403:
  *     $ref: '#/components/responses/Forbidden'
- *    5XX:
- *     $ref: '#/components/responses/ServerError'
+ *    500:
+ *     $ref: '#/components/responses/InternalServerError'
  */
 router.delete('/:id', checkAuth_1.checkToken, taskController_1.deleteTask);
 exports.default = router;
