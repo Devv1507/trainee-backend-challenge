@@ -4,10 +4,11 @@
 REST API para gestión de tareas de usuarios con base en reto de prueba técnica.
 
 ![Arquitectura base de la REST API](/media/api-architecture.drawio.png)
+
 Nota: los presentes iconos fueron tomados de la herramienta gratuita DrawIO.
 
 ## Arquitectura
-La REST API está basada en un diseño MVC, con una organización específica de los directorios con acceso a los datos de la base de datos (/models; aunque esto es gestionado principalmente por las funcionalidades del módulo de Sequelice) y controladores (manejo de peticiones HTTP; /controllers).
+La REST API está basada en un diseño MVC, con una organización específica de los directorios que habilitan el acceso a los datos de la base de datos (/models; que utiliza métodos de una instancia de Sequelize, que es un ORM o un mapeador que facilita la gestión de queries y comunicación con bases de datos relacionales) y controladores (manejo de peticiones HTTP y donde está la lógica de negocio; /controllers).
 
 El flujo de datos de puede resumirse en el siguiente esquema:
 
@@ -36,13 +37,13 @@ Para más información respecto a que documentación utilizada, preguntas realiz
 - ~~Realización de pruebas unitarias para todos los end-points con Jest y Supertest~~
 
 ## Instalación localmente
-Para correr la API localmente es necesario tener instalado el entorno NodeJS, ingresar al directorio donde se desea clonar el repositorio y utilizar el Bash de Git:
+Para correr la API localmente es necesario tener instalado el entorno NodeJS, ingresar al directorio donde se desea clonar el repositorio y abrir en dicha localización el Bash de Git:
 ```
 git clone https://github.com/Devv1507/trainee-backend-challenge.git
 ```
 Abrimos dicho directorio con nuestro IDE de preferencia y corremos el siguiente comando en la terminal (garantizando que estemos en la carpeta de origen del repositorio, e.g. your/pesonal/routes/trainee-backend-challenge):
 ```
-npm run dev
+npm i && npm run dev
 ```
 Psdta: se requiere que el puerto 3000 no este ocupado o añadir una variable PORT al archivo de variables de ejecución .env. Este archivo se ha compartido de forma pública para gantizar la facilidad de uso de la API, pero será deshabilitado en un futuro.
 
@@ -65,7 +66,7 @@ Solo un usuario autenticado puede acceder a las rutas privadas del CRUD de tarea
 - [x] Actualizar una tarea (PUT). http://example.com/api/home/tasks/:taskN
 - [x] Borrar una tarea (DELETE). http://example.com/api/home/tasks/:taskN
 
-Nota: taskN no es el id per se de la tarea pero puede funcionar como tal gracias a que es una lista ordenada de número enteros desde 1 para cada usuario. Es decir, la tarea 1 de un usuario no va a ser igual a la tarea 1 de otro usuario.
+Nota: taskN no es el id per se de la tarea pero puede funcionar como tal gracias a que es una lista ordenada de números enteros desde 1 para cada usuario. Es decir, la tarea 1 de un usuario no va a ser igual a la tarea 1 de otro usuario.
 
 ### CRUD de usuarios
 - [x] Leer los datos de todos los usuarios (GET). http://example.com/api/home/all
@@ -85,7 +86,7 @@ Nota: estas funcionalidades del CRUD de usuarios solo pueden ser accedidas logue
 Para visitar el funcionamiento en producción visitar: [https://taskmanager-api-tw7t.onrender.com/api/docs](https://taskmanager-api-tw7t.onrender.com/api/docs).
 
 ### En Postman
-Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link público compartido junto al video. Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
+Se realizó una colección en Postman con todas las rutas de la API para ser compartido con facilidad, por favor redigirse a dicha colección con el link compartido junto al video. Por otro lado, se expondrá brevemente el funcionamiento de end-points clave:
 
 Notas: es necesario agregar manualmente el token de acceso para conseguir autorización a las rutas privadas (Bearer token). Esta tarea puede ser algo más fácil con la UI de Swagger.
 

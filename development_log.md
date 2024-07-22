@@ -10,6 +10,7 @@ Debido a mi poca familiaridad con Typescript, empecé documentandome acerca de �
 
 En las primeras fases de la conversión de CommonJS a TS (en un principio empecé una estructura basada en .js para luego convertirla en .ts porque pensé que ahorraría más tiempo de tal forma) instale paquetes útiles y que se usan bastante en este tipo de proyectos PERN como: 
 ```
+npm init -y
 npm i express, bcryptjs, dotenv, jsonwebtoken, sequelize, pg, uuid, nodemon, zod
 
 ```
@@ -26,7 +27,7 @@ Usando la estrategia base de empezar el archivo de configuración 'tsconfig.json
 npx tsc --init
 ```
 ## Lógica de negocio
-La mayoría de la lógica del negocio recae en los controladores: toman las peticiones HTTP; reasignan a constantes atributos de los datos de entrada; realizan validaciones con los modelos definidos que básicamente son instancias de Sequelize, y por tanto, permiten utilizar métodos que facilitan tareas generales (como findOne, findByPk, create, update, destroy). Finalmente, una vez se alcanza el final de la estructura de control se retorna la respuesta HTTP correspondiente, sea un exito (200, 201) o rechazo (400, 401, 403, 404).
+La mayoría de la lógica del negocio recae en los controladores: toman las peticiones HTTP; desestructuran los objetos JSON para leer los datos de entrada; realizan validaciones con los modelos que actuán como  instancias de Sequelize, y por tanto, permiten utilizar métodos generales (como findOne, findByPk, create, update, destroy) que facilitan la realización de queries en lenguaje SQL. Finalmente, una vez se alcanza el final de la estructura de control se retorna la respuesta HTTP correspondiente, sea un exito (200, 201) o rechazo (400, 401, 403, 404).
 
 Para la lógica de autorización basada en tokens de acceso/refreso me base en guías bastante completas como las de [FullStackFoundation](https://www.fullstackfoundations.com/blog/passport-jwt) y [Dave Gray](https://www.youtube.com/watch?v=f2EqECiTBL8&t=15338s).
 

@@ -29,21 +29,21 @@ export const getUserTasks: Handler = async (req, res) => {
 };
 
 /**
- * Get a single task for the authenticated user by task ID.
+ * Get a single task for the authenticated user by task counter.
  * 
  * @function getUserSingleTask
  * @param {Object} req - Express request object.
  * @param {Object} req.params - Request parameters.
- * @param {string} req.params.id - Task ID.
+ * @param {string} req.params.taskN - Number of the task of a specific user. Starts at 1 and increment by one.
  * @param {Object} res - Express response object.
  * @returns {void}
  * @throws {NotFoundError} If the task is not found.
- * @description Retrieves a single task for the authenticated user by task ID.
+ * @description Retrieves a single task for the authenticated user by task counter.
  */
 export const getUserSingleTask: Handler = async (req, res) => {
     try {
         const id = res.locals.userId;
-        const taskN = req.params.id;
+        const taskN = req.params.taskN;
         const userTask = await Task.findOne({ where: { userId: id, taskN } });
         if (userTask === null) {
           return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });
@@ -107,7 +107,7 @@ export const addTask: Handler = async (req, res) => {
  * @function updateTask
  * @param {Object} req - Express request object.
  * @param {Object} req.params - Request parameters.
- * @param {string} req.params.id - Task Number.
+ * @param {string} req.params.taskN - Number of the task of a specific user. Starts at 1 and increment by one.
  * @param {Object} req.body - Request body.
  * @param {string} [req.body.title] - New task title
  * @param {string} [req.body.description] - New task description.
@@ -122,7 +122,7 @@ export const addTask: Handler = async (req, res) => {
  */
 export const updateTask: Handler = async (req, res) => {
     try {
-        const taskN = req.params.id;
+        const taskN = req.params.taskN;
         const { body } = req;
         const targeTask = await Task.findOne({where: { userId: res.locals.userId, taskN }});
         if (targeTask === null) {
@@ -143,7 +143,7 @@ export const updateTask: Handler = async (req, res) => {
  * @function deleteTask
  * @param {Object} req - Express request object.
  * @param {Object} req.params - Request parameters.
- * @param {string} req.params.id - Task ID.
+ * @param {string} req.params.taskN - Number of the task of a specific user. Starts at 1 and increment by one.
  * @param {Object} res - Express response object.
  * @returns {void}
  * @description Deletes an existing task for the authenticated user by task number.
@@ -153,7 +153,7 @@ export const updateTask: Handler = async (req, res) => {
 export const deleteTask: Handler = async (req, res) => {
     try {
         const id = res.locals.userId;
-        const taskN = req.params.id;
+        const taskN = req.params.taskN;
         const targeTask = await Task.findOne({ where: { userId: id, taskN } });
         if (targeTask === null) {
           return res.status(404).json({ success: false, message: 'La tarea no ha sido encontrada' });

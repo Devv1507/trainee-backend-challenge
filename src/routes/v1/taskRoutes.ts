@@ -39,7 +39,7 @@ router.get('/all', checkToken, getUserTasks);
 // Get a single task
 /**
  * @swagger
- * /api/home/tasks/{id}:
+ * /api/home/tasks/{taskN}:
  *  get:
  *   tags: [Task]
  *   summary: Get a single task of a user
@@ -63,7 +63,7 @@ router.get('/all', checkToken, getUserTasks);
  *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
-router.get('/:id', checkToken, getUserSingleTask);
+router.get('/:taskN', checkToken, getUserSingleTask);
 
 // Add a task
 /**
@@ -98,7 +98,7 @@ router.post('/add', validateRequest(taskSchema), checkToken, addTask);
 // Update a task
 /**
  * @swagger
- * /api/home/tasks/update/{id}:
+ * /api/home/tasks/update/{taskN}:
  *  put:
  *   tags: [Task]
  *   summary: Update a task
@@ -126,11 +126,11 @@ router.post('/add', validateRequest(taskSchema), checkToken, addTask);
  *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
-router.put('/:id', checkToken, updateTask);
+router.put('/:taskN', checkToken, updateTask);
 // Delete a task
 /**
  * @swagger
- * /api/home/tasks/delete/{id}:
+ * /api/home/tasks/delete/{taskN}:
  *  delete:
  *   tags: [Task]
  *   summary: Delete a task
@@ -152,6 +152,6 @@ router.put('/:id', checkToken, updateTask);
  *    500:
  *     $ref: '#/components/responses/InternalServerError'
  */
-router.delete('/:id', checkToken, deleteTask);
+router.delete('/:taskN', checkToken, deleteTask);
 
 export default router;
