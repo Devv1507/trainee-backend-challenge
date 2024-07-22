@@ -10,12 +10,19 @@ Nota: los presentes iconos fueron tomados de la herramienta gratuita DrawIO.
 La REST API está basada en un diseño MVC, con una organización específica de los directorios con acceso a los datos de la base de datos (/models; aunque esto es gestionado principalmente por las funcionalidades del módulo de Sequelice) y controladores (manejo de peticiones HTTP; /controllers).
 
 El flujo de datos de puede resumirse en el siguiente esquema:
+
 ![Flujo de datos general](/media/api-dataflow.png)
 
 La base de datos recide en Render, lo que facilita que otros usuarios puedan probar este recurso sin necesidad a priori de tener un gestor de bases de datos local. Se utilizó el gestor de DBeaver para visualizar la base de datos y garantizar una correcta estructura de los datos.
 
 La autenticación de usuarios se realiza por medio tokens de acceso y encriptación básica de las contraseñas con bcryptjs. La autorización también está basada en la revisión del encabezado de 'Authorization' de la petición HTTP, que para el caso solo puede ser demostrada colocando el token de acceso manualmente. Para garantizar un flujo más flexible de esta autorización, y evitar que el usuario deba logearse cada 15 minutos, se añadió una lógica basada en tokens de refresco, la cuál se basa en el siguiente algoritmo:
+
 ![Flujo de lógica de token de refresco](/media/api-refresh-token-logic.png)
+
+Además, cada vez que un usuario se logea se guarda el token de refresco también en la base de datos para tener una forma de garantizar cuando un token de refresco es válido y garantizar un poco más de seguridad a la hora de retornar tokens de acceso.
+
+## Más detalles
+Para más información respecto a que documentación utilicé, preguntas, dificultades u otras experiencias en el desarrollo de la API visitar el documento [Bitácora de Desarrolo / 'development_log'](delopment_log.md)
 
 ## Tecnologías
 
