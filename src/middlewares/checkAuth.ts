@@ -2,7 +2,21 @@ import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import User from '../database/models/user';
 
-// Define custom middleware function to handle unauthorized requests
+/**
+ * Check Token
+ * 
+ * @function checkToken
+ * @param {Object} req - Express request object.
+ * @param {Object} req.headers - Request headers.
+ * @param {string} req.headers.authorization - Authorization header containing the JWT.
+ * @param {Object} res - Express response object.
+ * @param {Function} next - Express next middleware function.
+ * @returns {void}
+ * @description Middleware function that verifies the JWT and authorizes the user.
+ * @throws {UnauthorizedError} If the authorization header is missing or the token is invalid.
+ * @throws {ForbiddenError} If the token is invalid or expired.
+ * @throws {Error} If there is a server error.
+ */
 export const checkToken = (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   if (!authHeader) {
